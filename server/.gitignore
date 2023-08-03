@@ -1,0 +1,4 @@
+.env
+__pycache__
+/ATS/__pycache__
+/auth/__pycache__
