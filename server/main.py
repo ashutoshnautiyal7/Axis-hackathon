@@ -202,5 +202,11 @@ def hr_posted_jd():
         return jsonify({'message':'Data updated successfully'}), 200
 
 
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    response = send_email()
+    return jsonify({"message": response})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
