@@ -7,6 +7,7 @@ import Dashboard from './components/user/Dashboard'
 import QuestionandAnswer from './components/user/QuestionandAnswer'
 import Profile from './components/auth/Profile'
 import HrDashboard from './components/hr/HrDashboard'
+import AdminDashboard from './components/admin/AdminDashboard'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/profile" element={<Profile/>} />
             <Route path="/home" element={<Dashboard/>} />
             <Route path="/hr/home" element={<HrDashboard/>} />
+            <Route path="/admin/home" element={<AdminDashboard/>} />
             <Route path="/interview-question" element={<QuestionandAnswer/>} />
         </Routes>
     </BrowserRouter>

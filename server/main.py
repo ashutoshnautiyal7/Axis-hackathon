@@ -7,6 +7,7 @@ import os
 from ATS.parser import ResumeParser
 from datetime import datetime
 import re
+import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456789' # Yeah the most secure key 😂
@@ -184,6 +185,17 @@ def hr_profile():
         return jsonify({'error':'HR ID not found'})
     hr_data = get_hr_profile(hr_id)
     return jsonify(hr_data)
+
+@app.route('/api/post_jd',methods=['POST'])
+def hr_post_jd():
+    hr_id = request.headers.get('X-Hr-ID')
+    if not hr_id:
+        return jsonify({'error':'HR ID not found'})
+    data = request.get_json()
+    data['hr_id'] = hr_id
+    post_new_jd(data)
+    return jsonify({'message':'Data posted successfully'}), 200
+
 
 
 @app.route('/api/posted_jd',methods=['GET','PUT'])

@@ -10,6 +10,9 @@ function HrDashboard() {
     const [description, setDescription] = useState('');
     const [jobData, setJobData] = useState([]);
     const [jdEditMode, setJdEditMode] = useState(false);
+    const [addTitle, setAddTitle] = useState('');
+    const [addDescription, setAddDescription] = useState('');
+    const [jdCount, setJdCount] = useState(0);
 
     useEffect(() => {
         const hr_id = localStorage.getItem('hr_id');
@@ -33,7 +36,6 @@ function HrDashboard() {
         });
         const data = await response.json();
         setData(data); // Update state with the fetched data
-
     };
 
     const fetchJobData = async (hr_id) => {
@@ -46,7 +48,7 @@ function HrDashboard() {
         });
         const data = await response.json();
         setJobData(data); // Update state with the fetched data
-
+        setJdCount(data.length)
     };
 
     const addJobHandler = () => {
@@ -64,7 +66,7 @@ function HrDashboard() {
         }));
     };
 
-    const handleSave = async(jd_id, title, description) => {
+    const handleSave = async (jd_id, title, description) => {
         const hr_id = localStorage.getItem('hr_id');
         const response = await fetch('/api/posted_jd', {
             method: 'PUT',
@@ -82,25 +84,52 @@ function HrDashboard() {
         if (response.ok) {
             toggleEditMode(jd_id);
             fetchJobData(hr_id);
-            setTitle('');
-            setDescription('');
             console.log('Job Edited Successfully');
         }
     };
 
+    const postJD = async (title, description) => {
+        const hr_id = localStorage.getItem('hr_id');
+        const response = await fetch('/api/post_jd', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                'X-Hr-ID': hr_id,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+            }),
+        });
+        if (response.ok) {
+            fetchJobData(hr_id);
+            setAddJob(false);
+            console.log('Job Posted Successfully');
+        }
+    }
+
     return (
-        <div className='bg-slate-100 dark:bg-slate-950 h-screen '>
+        <div className='bg-slate-100 dark:bg-slate-950 min-h-screen '>
             <Navbar />
-            <div className='container mx-auto mt-8 flex flex-col  dark:text-white '>
-                <h1 className='text-4xl '> Hello {data.name}</h1>
-                <div className='flex flex-row justify-between  mt-8'>
-                    <div className='backdrop-blur-lg  shadow-md dark:shadow-none shadow-purple-400 duration-300 hover:shadow-purple-600  p-1 rounded-2xl w-96 '>
-                        <a href="#" className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-900 duration-300 ">
-                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Your Profile</h5>
-                            <p className="font-normal text-lg dark:text-gray-200">Name : {data.name}</p>
-                            <p className="font-normal text-lg dark:text-gray-200">Email : {data.email}</p>
-                            <p className="font-normal text-lg dark:text-gray-200">Designation : {data.designation}</p>
-                        </a>
+            <div className='container mx-auto mt-8 flex flex-col   dark:text-white '>
+                <h1 className='text-4xl mx-24'> Hello {data.name}</h1>
+                <div className='flex flex-row justify-between mx-24 mt-8'>
+                    <div className='flex flex-row'>
+                        <div className='backdrop-blur-lg mx-4 shadow-md dark:shadow-none shadow-purple-400 duration-300 hover:shadow-purple-600  p-1 rounded-2xl w-96 '>
+                            <a href="#" className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-900 duration-300 ">
+                                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Your Profile</h5>
+                                <p className="font-normal text-lg dark:text-gray-200">Name : {data.name}</p>
+                                <p className="font-normal text-lg dark:text-gray-200">Email : {data.email}</p>
+                                <p className="font-normal text-lg dark:text-gray-200">Designation : {data.designation}</p>
+                            </a>
+                        </div>
+                        <div className='backdrop-blur-lg  shadow-md dark:shadow-none shadow-purple-400 duration-300 hover:shadow-purple-600  p-1 rounded-2xl w-96 '>
+                            <a href="#" className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-900 duration-300 ">
+                                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Stats</h5>
+                                <p className="font-normal text-lg dark:text-gray-200">Total Job Posted : {jdCount}</p>
+                            </a>
+                        </div>
                     </div>
                     {
                         addJob === false ? (
@@ -115,12 +144,21 @@ function HrDashboard() {
                     }
 
                 </div>
-                <hr className='h-0.5 w-full my-8 bg-black/10' />
+                <hr className='h-0.5 mx-24 min-w-fit my-8 bg-black/10' />
 
                 {
                     addJob ? (
                         <div className='flex flex-col justify-center items-center transition-transform duration-500'>
-                            <h1 className='text-2xl font-bold'>Add Job</h1>
+                            <h1 className='text-2xl mb-4 font-bold'>Add Job</h1>
+                            <div className='flex flex-row w-3/4'>
+                                <label className='text-2xl font-semibold'>Job Title</label>
+                                <input type='text' onChange={(e) => setAddTitle(e.target.value)} className='bg-transparent rounded-md mx-2 px-2 outline outline-1 outline-purple-500 w-3/4 h-8' placeholder='Software Engineer' />
+                            </div>
+                            <div className='flex flex-row w-3/4 my-3'>
+                                <label className='text-2xl font-semibold'>Job Description</label>
+                                <textarea type='text' onChange={(e) => setAddDescription(e.target.value)} className='bg-transparent rounded-md mx-2 px-2 outline outline-1 outline-purple-500 w-3/4 h-10' placeholder='Add Description Here' />
+                            </div>
+                            <button onClick={() => postJD(addTitle, addDescription)} className='outline outline-2 hover:text-white outline-purple-600 hover:bg-purple-600 duration-300 hover:shadow hover:shadow-purple-500 py-2 px-4 rounded-md' >Submit</button>
                         </div>
                     ) : (
                         <div className='flex flex-col justify-center items-center transition-transform duration-500'>
@@ -130,7 +168,7 @@ function HrDashboard() {
                                     <h1 className='text-2xl font-bold mb-4'>No Jobs Posted</h1>
                                 ) : (
                                     jobData.map((job) => (
-                                        <div className='backdrop-blur-lg  dark:bg-white/20 my-2 shadow-md dark:shadow-none shadow-purple-400 duration-300 hover:shadow-purple-600  p-4 rounded-2xl w-3/4 ' key={job.jd_id} >
+                                        <div className='backdrop-blur-lg  dark:bg-white/20 my-2 shadow-md dark:shadow-none shadow-purple-400 duration-300 hover:shadow-purple-600  p-4 rounded-2xl w-3/4 ' key={job.jd_id}>
                                             {
                                                 jdEditMode[job.jd_id] ? (
                                                     <div className='flex flex-row w-full justify-between '>
@@ -145,7 +183,7 @@ function HrDashboard() {
                                                             </div>
                                                         </div>
                                                         <div className=''>
-                                                            <button onClick={() => handleSave(job.jd_id,title,description)} className='outline outline-2 hover:text-white outline-purple-600 hover:bg-purple-600 duration-300 hover:shadow hover:shadow-purple-500 py-2 px-4 rounded-md' >Save</button>
+                                                            <button onClick={() => handleSave(job.jd_id, title, description)} className='outline outline-2 hover:text-white outline-purple-600 hover:bg-purple-600 duration-300 hover:shadow hover:shadow-purple-500 py-2 px-4 rounded-md' >Save</button>
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -167,12 +205,9 @@ function HrDashboard() {
                                                 )}
                                         </div>
                                     ))
-                                )
-                            }
+                                )}
                         </div>
-                    )
-                }
-
+                    )}
             </div>
         </div>
     );

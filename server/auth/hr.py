@@ -56,10 +56,22 @@ def posted_jd(hr_id):
         posted_jds.append(jd)
     return posted_jds
 
+def post_new_jd(data):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    jd_data, count = supabase.table('jd').insert({
+        'jd_id': str(uuid.uuid4()),
+        'title': data['title'],
+        'description': data['description'],
+        'hr_id': data['hr_id']
+    }).execute()
+    if jd_data:
+        return 200
+    return 401
+
+
 def update_posted_jd(jd_id,updated_data):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
     jd_data, count = supabase.table('jd').update(updated_data).eq('jd_id', jd_id).execute()
-    
     if jd_data:
         return 200
     return 401
