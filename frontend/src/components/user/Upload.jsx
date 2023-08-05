@@ -2,21 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Upload() {
-    const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [fileStatus, setFileStatus] = useState(false);
-    useEffect(() => {
-        const token = localStorage.getItem('access_token');
-        const user_id = localStorage.getItem('user_id')
-        if (!token) {
-            navigate('/login');
-        }
-        if(user_id === null){
-            navigate('/login')
-        }
-
-    }, [navigate]);
-
     const handleFileUpload = async (e) => {
         e.preventDefault();
         const fileInput = document.getElementById('resumeFile');
@@ -72,10 +59,6 @@ function Upload() {
                 </button>
                 {message && <p className={message === 'File uploaded successfully!' ? 'text-green-500' : 'text-red-500'}>{message}</p>}
             </form>
-
-
-        
-            
         </div>
     );
 }

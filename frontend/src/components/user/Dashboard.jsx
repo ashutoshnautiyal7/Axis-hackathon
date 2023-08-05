@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import Form from "../Form/Form";
 import Navbar from "./Navbar";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Upload from "./Upload";
 import React from "react";
+
 function Dashboard() {
   const [data, setData] = useState(null);
 
@@ -34,7 +37,18 @@ function Dashboard() {
   }, []);
 
   console.log("the data is ", data);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');
+        const user_id = localStorage.getItem('user_id')
+        if (!token) {
+            navigate('/login');
+        }
+        if (user_id === null) {
+            navigate('/login')
+        }
 
+    }, [navigate]);
   return (
     <>
       <div>

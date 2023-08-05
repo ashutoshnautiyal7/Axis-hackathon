@@ -20,6 +20,7 @@ function Navbar() {
         <div className="mt-4">
            <Link className={`px-4 ${isActiveRoute('/home') ? 'text-purple-500 font-semibold' : ''}`} to="/home">Home</Link>
           <Link className={`px-4 ${isActiveRoute('/profile') ? 'text-purple-500 font-semibold' : ''}`} to="/profile">Profile</Link>
+          <Link className={`px-4 ${isActiveRoute('/viewjd') ? 'text-purple-500 font-semibold' : ''}`} to="/viewjd">Viewjd</Link>
         </div>
         <div className="flex flex-row">
           <div className='lg:p-3 p-2 mt-2   duration-100 mx-2 rounded-lg  flex '>

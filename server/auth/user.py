@@ -100,3 +100,24 @@ def update_user_profile(user_id,updated_data):
     if data:
         return 200
     return 401
+
+def view_jd():
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    data, count = supabase.table('jd').select('jd_id','title','description','hr_id').execute()
+    if data:
+        return data[1]
+    return 401
+
+def apply_jd(user_id,jd_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    data, count = supabase.table('jd').select('applied','jd_id').eq('jd_id',jd_id).execute()
+    applied_array = []
+    if data[1][0]['applied'] is not None:
+        applied_array = data[1][0]['applied']
+    applied_array.append(user_id)
+    
+    applied_array = list(set(applied_array))
+    _, count = supabase.table('jd').update({'applied': applied_array}).eq('jd_id', jd_id).execute()
+    if _:
+        return 200  
+    return 401

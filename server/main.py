@@ -7,7 +7,6 @@ import os
 from ATS.parser import ResumeParser
 from datetime import datetime
 import re
-import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456789' # Yeah the most secure key 😂
@@ -177,6 +176,13 @@ def extract_resume():
     
     return extracted_details
 
+@app.route('/api/viewjd',methods = ['GET'])
+def user_view_jd():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'error':'User ID not found'}), 404
+    data = view_jd()
+    return data
 
 @app.route('/api/hr',methods=['GET'])
 def hr_profile():
@@ -196,8 +202,6 @@ def hr_post_jd():
     post_new_jd(data)
     return jsonify({'message':'Data posted successfully'}), 200
 
-
-
 @app.route('/api/posted_jd',methods=['GET','PUT'])
 def hr_posted_jd():
     hr_id = request.headers.get('X-HR-ID')
@@ -213,11 +217,23 @@ def hr_posted_jd():
         update_posted_jd(data['jd_id'],data)
         return jsonify({'message':'Data updated successfully'}), 200
 
+@app.route('/api/applyjd',methods= ['PUT'])
+def applyjd():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'error':'User ID not found'}), 404
+    data = request.get_json()
+    apply_jd(user_id,data['jd_id'])
+    return jsonify({'Applied for' : 'user_id'})
+
 
 @app.route('/send_email', methods=['POST'])
 def send_email():
     response = send_email()
     return jsonify({"message": response})
+
+
+
 
 
 if __name__ == '__main__':
