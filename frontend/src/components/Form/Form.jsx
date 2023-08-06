@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 const Form = ({ data, user_id }) => {
   const [name, setName] = useState(data.name);
@@ -11,47 +10,36 @@ const Form = ({ data, user_id }) => {
   const [skills, setSkills] = useState(data.skills.join(", "));
   const [experience, setExperience] = useState(data.experience);
   const [totalExperience, setTotalExperience] = useState(data.total_experience);
-  const [githubUrl, setGithubUrl] = useState(data.github_url);
-  const [linkedinUrl, setLinkedinUrl] = useState(data.linkedin_url);
+  const [github, setGithubUrl] = useState(data.github_url);
+  const [linkedin, setLinkedinUrl] = useState(data.linkedin_url);
 
-  console.log(skills);
-
-  console.log("the id inside the form is ", user_id);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const response = await fetch('/api/userautofill', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-ID': user_id,
+      },
+      body: JSON.stringify({
+        'username': name,
+        'email': email,
+        'degree': degree,
+        'phone': phone,
+        'college_name': collegeName,
+        'city': city,
+        'skills': [skills],
+        'experience': experience,
+        'total_experience': totalExperience,
+        'github': github,
+        'linkedin': linkedin,
+        'profile': 'created'
+      }),
+    });
+    const data = await response.json();
 
-    const formData = {
-      name,
-      email,
-      mobile_number: phone,
-      college_name: collegeName,
-      degree: [degree],
-      city,
-      skills: skills.split(",").map((skill) => skill.trim()),
-      experience,
-      total_experience: totalExperience,
-      github_url: githubUrl,
-      linkedin_url: linkedinUrl,
-    };
-
-    axios
-      .put("/api/user/profile", formData, {
-        headers: {
-          "X-User-ID": user_id, // Replace <USER_ID> with the actual user ID
-        },
-      })
-      .then((response) => {
-        // Handle the response if needed
-        console.log(response.data);
-        // You can show a success message or redirect the user after successful update
-      })
-      .catch((error) => {
-        // Handle errors if needed
-        console.error(error);
-        // You can show an error message to the user
-      });
   };
+
 
   return (
     <div className=" container mx-auto flex flex-col justify-center py-12 px-6 lg:px-8">
@@ -68,7 +56,8 @@ const Form = ({ data, user_id }) => {
                   id="name"
                   name="name"
                   type="text"
-                  value={data.name}
+                  defaultValue={data.name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                   className="rounded-md w-[90%] p-2 border-2 bg-gray-50"
                 />
@@ -87,7 +76,8 @@ const Form = ({ data, user_id }) => {
                   id="user_email"
                   name="user_email"
                   type="email"
-                  value={data.email}
+                  defaultValue={data.email}
+                  onChange={(e) => setEmail(e.target.value)}
                   // disabled
                   autoComplete="email"
                   required
@@ -97,9 +87,7 @@ const Form = ({ data, user_id }) => {
             </div>
 
             <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700"
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700"
               >
                 Phone Number
               </label>

@@ -7,7 +7,7 @@ import uuid
 import base64
 
 
-def generate_token(user_id, secret_key):
+def generate_token(id, secret_key):
     """
     Generate a JWT token for the given user ID.
 
@@ -19,7 +19,7 @@ def generate_token(user_id, secret_key):
         str: The JWT token as a string.
     """
     payload = {
-        'user_id': user_id,
+        'hr_id': id,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     }
     return jwt.encode(payload, secret_key, algorithm='HS256')

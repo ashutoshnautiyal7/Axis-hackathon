@@ -75,6 +75,15 @@ def register_user(email, username, password):
         return 200, user_id  # Successful registration and return 'user_id'
     return 401, None  # Failed registration
 
+def create_user_profile(user_id, user_data):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    data,count = supabase.table('user').select('user_id','email','created').eq('user_id',user_id).execute()
+    print(user_data)
+    if data[1][0]['email'] == user_data['email'] or data[1][0]['user_id'] == user_id and data[1][0]['created'] is None: 
+        _, count = supabase.table('user').update(user_data).eq('user_id',user_id).execute()
+        return 200
+    return 401
+
 def get_user_profile(user_id):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
     data, count = supabase.table('user').select('user_id', 'email', 'username', 'degree','phone','resume_path').eq('user_id',user_id).execute()

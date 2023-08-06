@@ -1,74 +1,105 @@
-import React, { useState } from "react";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineDashboard } from "react-icons/md";
-import { RiSettings4Line } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
-import { Link } from "react-router-dom";
 
-const Sidebar = () => {
-  const menus = [
-    { name: "dashboard", link: "/", icon: MdOutlineDashboard },
-    { name: "user", link: "/", icon: AiOutlineUser },
-    { name: "messages", link: "/", icon: FiMessageSquare },
-    { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
-    { name: "File Manager", link: "/", icon: FiFolder },
-    { name: "Cart", link: "/", icon: FiShoppingCart },
-    { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
-    { name: "Setting", link: "/", icon: RiSettings4Line },
-  ];
-  const [open, setOpen] = useState(true);
+import Sidebar from './Sidebar'
+import Navbar from './Navbar'
+import Header from './Header'
+import { Chart } from 'chart.js/auto'
+import { Doughnut, Bar } from 'react-chartjs-2';
+import { useEffect, useState } from 'react';
+
+function AdminDashboard() {
+  const userCount = localStorage.getItem('userCount');
+  const hrCount = localStorage.getItem('hrCount');
+  const [jdDataArray, setJdDataArray] = useState([]);
+
+
+
+  const userHrData = {
+    labels: ['Users', 'HRs'],
+    datasets: [
+      {
+        data: [userCount, hrCount],
+        backgroundColor: ['#11b980', '#3b83f7'],
+      },
+    ],
+  };
+
+  const fetchJdData = async () => {
+    try {
+      const response = await fetch('/api/admin/home/jd', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setJdDataArray(data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJdData();
+  }, []);
+
+  const colors = ['#11b980','#3b83f7','#ff8b4c','#8b5cf6','#f65064','#00b8d9','#f66d9b','#f6b93b','#6eeb83',]
+
+  const jdChartData = jdDataArray.map(item => {
+    const jdName = item.jd_id.substring(0, 8);
+    const appliedCount = item.applied ? item.applied.length : 0;
+    const color = colors[Math.floor(Math.random() * colors.length)]; 
+    return {
+      jdName,
+      appliedCount,
+      color,
+    };
+  });
+
+  const jdLabels = jdChartData.map(data => data.jdName);
+  const appliedCounts = jdChartData.map(data => data.appliedCount);
+  const backgroundColors = jdChartData.map(data => data.color);
+
+  const data = {
+    labels: jdLabels,
+    datasets: [
+      {
+        label: 'Number of Users Applied',
+        data: appliedCounts,
+        backgroundColor: backgroundColors,
+      },
+    ],
+  };
+
   return (
-    <section className="flex gap-6">
-      <div
-        className={`bg-[#0e0e0e] min-h-screen ${
-          open ? "w-72" : "w-16"
-        } duration-500 text-gray-100 px-4`}
-      >
-        <div className="py-3 flex justify-end">
-          <HiMenuAlt3
-            size={26}
-            className="cursor-pointer"
-            onClick={() => setOpen(!open)}
-          />
-        </div>
-        <div className="mt-4 flex flex-col gap-4 relative">
-          {menus?.map((menu, i) => (
-            <Link
-              to={menu?.link}
-              key={i}
-              className={` ${
-                menu?.margin && "mt-5"
-              } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
-            >
-              <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-              <h2
-                style={{
-                  transitionDelay: `${i + 3}00ms`,
-                }}
-                className={`whitespace-pre duration-500 ${
-                  !open && "opacity-0 translate-x-28 overflow-hidden"
-                }`}
-              >
-                {menu?.name}
-              </h2>
-              <h2
-                className={`${
-                  open && "hidden"
-                } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
-              >
-                {menu?.name}
-              </h2>
-            </Link>
-          ))}
-        </div>
-      </div>
-      <div className="m-3 text-xl text-gray-900 font-semibold">
-        Rest of the content !
-      </div>
-    </section>
-  );
-};
+    <div className='flex '>
+      <Sidebar />
+      <div className='flex flex-col w-full'>
+        <Navbar />
+        <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen  font-semibold p-4">
+          <h2 className="text-xl font-medium text-slate-400 dark:text-gray-500 px-8">Overview</h2>
+          <h3 className="text-3xl font-semibold dark:text-white px-8">Dashboard</h3>
+          <Header />
+          <main className='px-8 mt-8  '>
+            <h3 className="text-3xl font-semibold dark:text-white">Stats</h3>
+            <div className="flex flex-row gap-8  ">
+              <div className="w-1/3 h-1/5 bg-white/90 dark:bg-neutral-800 dark:text-white shadow-lg  rounded-lg hover:shadow-sky-500 duration-300 flex flex-col items-center justify-center mt-8 p-4">
+                <Doughnut options={{ maintainAspectRatio: true }} data={userHrData} />
+                <h1 className="text-lg my-2 dark:text-white/70">User/HR Ratio</h1>
+              </div>
+              <div className="w-2/3 h-1/5 bg-white/90 dark:bg-neutral-800 dark:text-white shadow-lg  rounded-lg hover:shadow-sky-500 duration-300 flex flex-col items-center justify-center mt-8 p-4">
+                <Bar options={{ maintainAspectRatio: true }} data={data} />
+                <h1 className="text-lg my-2 dark:text-white/70">Job Description Posting (/day)</h1>
+              </div>
+            </div>
 
-export default Sidebar;
+          </main>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default AdminDashboard

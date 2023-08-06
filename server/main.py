@@ -3,15 +3,18 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from auth.user import *
 from auth.hr import *
+from auth.admin import *
 import os
 from ATS.parser import ResumeParser
 from datetime import datetime
 import re
+import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456789' # Yeah the most secure key 😂
 bcrypt = Bcrypt(app)
 CORS(app)
+logging.basicConfig(filename='api_usage.log', level=logging.INFO)
 
 @app.route('/api')
 def test():
@@ -64,6 +67,7 @@ def login():
     - If login is successful, returns HTTP 200 with a JSON response containing a success message and a JWT token.
     - If login fails, returns HTTP 401 with a JSON response containing an error message.
     """
+    logging.info(f"API request: {request.method} {request.path}")
     data = request.get_json()
     email = data.get("email")
     password = data.get("password")
@@ -80,7 +84,7 @@ def login():
             return response
         else:
             return jsonify({'message': 'Login failed!'}), 401
-    else:
+    elif not match_result:
         authenticated = login_hr(email,password)
         if authenticated[0] == 200:
             token = generate_token(email, authenticated[1])  
@@ -153,7 +157,7 @@ def user_upload_resume():
         return jsonify({'resume_url':resume_url['resume_url']}), 200
 
 
-@app.route('/api/userautofill', methods = ['GET'])
+@app.route('/api/userautofill', methods = ['GET','POST'])
 def extract_resume():
     """
     Endpoint to extract the details from a user's resume.
@@ -171,10 +175,16 @@ def extract_resume():
     if not user_id:
         return jsonify({'error':'User ID not found'}), 404
 
-    resume_url = get_user_profile(user_id)
-    extracted_details = ResumeParser(resume_url['resume_url']).resume_parser()
+    if request.method == 'GET':
+        resume_url = get_user_profile(user_id)
+        extracted_details = ResumeParser(resume_url['resume_url']).resume_parser()
+        return extracted_details
     
-    return extracted_details
+    elif request.method == 'POST':
+        data = request.get_json()
+        create_user_profile(user_id,data)
+        return jsonify({'message':'Form Submitted'}), 200
+    
 
 @app.route('/api/viewjd',methods = ['GET'])
 def user_view_jd():
@@ -232,8 +242,36 @@ def send_email():
     response = send_email()
     return jsonify({"message": response})
 
+""" 
+    All Admin Endpoints
+"""
+@app.route('/api/admin/home',methods=['GET'])
+def admn_home():
+    response = get_header()
+    return jsonify(response)
 
+@app.route('/api/admin/home/jd',methods=['GET','POST'])
+def admn_home_jd():
+    if request.method == 'GET':
+        response = get_jd_status()
+        return jsonify(response)
 
+@app.route('/api/admin/home/hr',methods=['GET','POST'])
+def admn_home_hr():
+    if request.method == 'GET':
+        response = get_all_hr()
+        return jsonify(response)
+
+    if request.method == 'POST':
+        data = request.get_json()
+        response = create_hr(data)
+        return jsonify({'message':'HR added successfully'}), 200
+    
+@app.route('/api/admin/home/user',methods=['GET','POST'])
+def admn_home_user():
+    if request.method == 'GET':
+        response = get_all_user()
+        return jsonify(response)
 
 
 if __name__ == '__main__':

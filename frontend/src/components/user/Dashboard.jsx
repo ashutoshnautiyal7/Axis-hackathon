@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import Form from "../Form/Form";
 import Navbar from "./Navbar";
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Upload from "./Upload";
-import React from "react";
+
 
 function Dashboard() {
   const [data, setData] = useState(null);
@@ -14,12 +13,12 @@ function Dashboard() {
   useEffect(() => {
     const user_id = localStorage.getItem("user_id");
 
-    console.log(user_id);
+
 
     async function fetchuserData() {
       try {
-        // Fetch API request with the user_id as a custom header
-        const response = await fetch("http://localhost:5000/api/userautofill", {
+
+        const response = await fetch("/api/userautofill", {
           headers: {
             "X-User-ID": user_id,
           },
@@ -31,12 +30,12 @@ function Dashboard() {
       }
     }
 
-    console.log("the user data is ", data);
+
 
     fetchuserData();
   }, []);
 
-  console.log("the data is ", data);
+
     const navigate = useNavigate();
     useEffect(() => {
         const token = localStorage.getItem('access_token');
