@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const menus = [
-    { name: "Dashboard", link: "/admin/home", icon: MdOutlineDashboard },
-    { name: "User", link: "/admin/home/user", icon: AiOutlineUser },
+    { name: "Dashboard", link: "/hr/home", icon: MdOutlineDashboard },
+    { name: "User", link: "/hr/user", icon: AiOutlineUser },
     { name: "HR", link: "/admin/home/hr", icon: FiMessageSquare },
     { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
     { name: "File Manager", link: "/", icon: FiFolder },

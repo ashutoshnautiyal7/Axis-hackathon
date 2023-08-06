@@ -62,6 +62,9 @@ function AdminHr() {
                                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">
                                                     Designation
                                                 </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-neutral-400 uppercase tracking-wider">
+                                                    Company Name
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y  divide-gray-200 dark:bg-neutral-900 dark:divide-neutral-700">
@@ -86,6 +89,9 @@ function AdminHr() {
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap">
                                                                 <div className="text-sm text-gray-900 dark:text-white">{hr.designation}</div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                                <div className="text-sm text-gray-900 dark:text-white">{hr.company_name !== null ? hr.company_name : '-'}</div>
                                                             </td>
                                                         </tr>
                                                     )

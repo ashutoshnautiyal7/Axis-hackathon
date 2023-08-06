@@ -1,6 +1,7 @@
 
 import useTheme from '../../hooks/useTheme';
 import Searchbar from './Searchbar';
+
 import { CgProfile } from 'react-icons/cg';
 function Navbar() {
     const [nextTheme, setTheme] = useTheme();

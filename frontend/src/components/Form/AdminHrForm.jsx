@@ -4,6 +4,7 @@ function AdminHrForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [designation, setDesignation] = useState('')
+  const [company, setCompany] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showForm, setShowForm] = useState(false)
@@ -14,10 +15,11 @@ function AdminHrForm() {
       return
     }
     const data = {
-      name,
-      email,
-      designation,
-      password,
+      'name':name,
+      'email':email,
+      'designation':designation,
+      'company_name':company,
+      'password':password,
     }
     const res = await fetch('/api/admin/home/hr', {
       method: 'POST',
@@ -35,6 +37,7 @@ function AdminHrForm() {
       setDesignation('')
       setPassword('')
       setConfirmPassword('')
+      setCompany('')
     }
   }
 
@@ -55,6 +58,10 @@ function AdminHrForm() {
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold "> Designation </label>
                 <input id="name" name="name" type="text" defaultValue={designation} onChange={(e) => setDesignation(e.target.value)} required className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" />
+              </div>
+              <div>
+                <label htmlFor="name" className="block text-sm font-semibold "> Company Name </label>
+                <input id="name" name="name" type="text" defaultValue={company} onChange={(e) => setCompany(e.target.value)} required className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" />
               </div>
               <div className="">
                 <label htmlFor="name" className="block text-sm font-semibold "> Email </label>

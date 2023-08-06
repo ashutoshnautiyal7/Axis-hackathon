@@ -209,6 +209,7 @@ def hr_post_jd():
         return jsonify({'error':'HR ID not found'})
     data = request.get_json()
     data['hr_id'] = hr_id
+    print(data)
     post_new_jd(data)
     return jsonify({'message':'Data posted successfully'}), 200
 

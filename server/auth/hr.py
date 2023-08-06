@@ -33,36 +33,51 @@ def login_hr(email,password):
 
 def get_hr_profile(hr_id):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
-    data, count = supabase.table('hrdb').select('hr_id','email','name','designation').eq('hr_id', hr_id).execute()
+    data, count = supabase.table('hrdb').select('hr_id','email','name','designation','company_name').eq('hr_id', hr_id).execute()
     hr_data = {
         'hr_id': data[1][0]['hr_id'],
         'email': data[1][0]['email'],
         'name': data[1][0]['name'],
-        'designation': data[1][0]['designation']
+        'designation': data[1][0]['designation'],
+        'company_name': data[1][0]['company_name']
     } 
     return hr_data
 
 def posted_jd(hr_id):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
-    jd_data, count = supabase.table('jd').select('jd_id','title','description','hr_id').eq('hr_id', hr_id).execute()
+    jd_data, count = supabase.table('jd').select('*').eq('hr_id', hr_id).execute()
     posted_jds = []
     for i in range(len(jd_data[1])):
         jd = {
             'jd_id': jd_data[1][i]['jd_id'],
             'title': jd_data[1][i]['title'],
             'description': jd_data[1][i]['description'],
-            'hr_id': jd_data[1][i]['hr_id']
+            'hr_id': jd_data[1][i]['hr_id'],
+            'location':jd_data[1][i]['location'],
+            'qualification':jd_data[1][i]['qualification'],
+            'expereince':jd_data[1][i]['expereince'],
+            'salary':jd_data[1][i]['salary'],
+            'skills':jd_data[1][i]['skills'],
+            'end_date':jd_data[1][i]['end_date'],
         }
         posted_jds.append(jd)
     return posted_jds
 
 def post_new_jd(data):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+
+    cleaned_salary = data['salary'].replace(',', '')
     jd_data, count = supabase.table('jd').insert({
         'jd_id': str(uuid.uuid4()),
         'title': data['title'],
         'description': data['description'],
-        'hr_id': data['hr_id']
+        'hr_id': data['hr_id'],
+        'location':data['location'],
+        'qualification':data['qualification'],
+        'expereince':data['experience'],
+        'salary':int(cleaned_salary),
+        'skills':data['skills'],
+        'end_date':data['end_date'],
     }).execute()
     if jd_data:
         return 200
