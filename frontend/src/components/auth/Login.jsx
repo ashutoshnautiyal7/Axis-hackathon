@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import React from "react";
-import LoginUi from "../Login/Login";
 
 function Login() {
   const [email, setEmail] = useState("");
