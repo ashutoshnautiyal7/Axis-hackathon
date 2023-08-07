@@ -43,6 +43,11 @@ def get_hr_profile(hr_id):
     } 
     return hr_data
 
+def update_hr_profile(hr_id,data):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    data, count = supabase.table('hrdb').update(data).eq('hr_id', hr_id).execute()
+    return 200
+
 def posted_jd(hr_id):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
     jd_data, count = supabase.table('jd').select('*').eq('hr_id', hr_id).execute()
@@ -59,6 +64,7 @@ def posted_jd(hr_id):
             'salary':jd_data[1][i]['salary'],
             'skills':jd_data[1][i]['skills'],
             'end_date':jd_data[1][i]['end_date'],
+            'applied': len(jd_data[1][i]['applied']) if jd_data[1][i]['applied'] else 0,
         }
         posted_jds.append(jd)
     return posted_jds
@@ -91,3 +97,9 @@ def update_posted_jd(jd_id,updated_data):
         return 200
     return 401
 
+def delete_posted_jd(jd_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    jd_data, count = supabase.table('jd').delete().eq('jd_id', jd_id).execute()
+    if jd_data:
+        return 200
+    return 401

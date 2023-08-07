@@ -194,13 +194,22 @@ def user_view_jd():
     data = view_jd()
     return data
 
-@app.route('/api/hr',methods=['GET'])
+@app.route('/api/hr',methods=['GET', "PUT"])
 def hr_profile():
     hr_id = request.headers.get('X-Hr-ID')
     if not hr_id:
         return jsonify({'error':'HR ID not found'})
-    hr_data = get_hr_profile(hr_id)
-    return jsonify(hr_data)
+    
+    if request.method == 'GET':
+        hr_data = get_hr_profile(hr_id)
+        return jsonify(hr_data)
+    
+    if request.method == 'PUT':
+        updated_data = request.get_json()
+        print(hr_id)
+        print(updated_data)
+        update_hr_profile(hr_id,updated_data)
+        return jsonify({'message':'Profile updated successfully'})
 
 @app.route('/api/post_jd',methods=['POST'])
 def hr_post_jd():
@@ -213,7 +222,7 @@ def hr_post_jd():
     post_new_jd(data)
     return jsonify({'message':'Data posted successfully'}), 200
 
-@app.route('/api/posted_jd',methods=['GET','PUT'])
+@app.route('/api/posted_jd',methods=['GET','PUT','DELETE'])
 def hr_posted_jd():
     hr_id = request.headers.get('X-HR-ID')
     if not hr_id:
@@ -227,6 +236,12 @@ def hr_posted_jd():
         data = request.get_json()
         update_posted_jd(data['jd_id'],data)
         return jsonify({'message':'Data updated successfully'}), 200
+    
+    if request.method == 'DELETE':
+        data = request.get_json()
+        delete_posted_jd(data['jd_id'])
+        return jsonify({'message':'Data deleted successfully'}), 200
+    
 
 @app.route('/api/applyjd',methods= ['PUT'])
 def applyjd():

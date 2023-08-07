@@ -21,9 +21,9 @@ const Sidebar = () => {
   const [open, setOpen] = useState(true);
   return (
     <div
-        className={`bg-zinc-100  min-h-screen ${ open ? "w-72" : "w-16" } duration-500 px-4`}>
-        <div className="py-3 flex justify-end">
-          <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)} />
+        className={`bg-zinc-100 dark:bg-neutral-950 dark:text-white  min-h-screen ${ open ? "w-72" : "w-16" } duration-500 px-4`}>
+        <div className="py-3 flex justify-end ">
+          <HiMenuAlt3 size={26} className="cursor-pointer " onClick={() => setOpen(!open)} />
         </div>
         <div className="mt-4 flex flex-col gap-4 relative">
           {menus?.map((menu, i) => (

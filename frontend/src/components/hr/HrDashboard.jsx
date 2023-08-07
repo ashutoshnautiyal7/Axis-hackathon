@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import PostJD from "../Form/PostJD";
-import React from "react";
-import Profile from "./profile";
+import { IoDocumentOutline } from 'react-icons/io5'
+import { FaUserGraduate } from "react-icons/fa";
+import PostJD from "./PostJD";
 
 function HrDashboard() {
   const navigateTo = useNavigate();
@@ -34,9 +34,7 @@ function HrDashboard() {
       fetchHrData(hr_id);
       fetchJobData(hr_id);
     }
-  }, []);
-
-  console.log(jobData);
+  }, [navigateTo]);
 
   const fetchHrData = async (hr_id) => {
     const response = await fetch(`/api/hr`, {
@@ -50,7 +48,6 @@ function HrDashboard() {
     setData(data); // Update state with the fetched data
   };
 
-  console.log("the data is ", data);
 
   const fetchJobData = async (hr_id) => {
     const response = await fetch("/api/posted_jd", {
@@ -134,228 +131,71 @@ function HrDashboard() {
   };
 
   return (
-    <div className="flex dark:bg-neutral-950 ">
-      <div className="">
-        <Sidebar />
-      </div>
-      <div className="flex flex-col w-full sm:pl-80">
-        <div className=" ">
-          <Navbar />
-        </div>
-
-        <div className="mt-[50px]">
-          <Profile data={data} jdcount={jdCount} />
-        </div>
-
-        <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen font-semibold p-4">
-          <main className="mt-8 px-8">
-            <div className="flex flex-row">
-              {addJob === false ? (
-                <div>
-                  <button
-                    onClick={addJobHandler}
-                    className="outline outline-2 dark:text-white outline-sky-600 hover:bg-sky-600 duration-300 shadow-lg hover:shadow-sky-500 py-2 px-4 rounded-md"
-                  >
-                    Add Job
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <button
-                    onClick={addJobHandler}
-                    className="outline outline-2 dark:text-white outline-sky-600 hover:bg-sky-600 duration-300 shadow-lg hover:shadow-sky-500 py-2 px-4 rounded-md"
-                  >
-                    View Job
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {addJob ? (
-              <PostJD />
-            ) : (
-              <div className="mt-8">
-                <div className="duration-300  rounded-xl  flex flex-col justify-between">
-                  <div className="space-y-1">
-                    <h2 className="text-3xl font-normal dark:text-neutral-500 ">
-                      Job Descriptions
-                    </h2>
-
-                    {jobData.map((job) => {
-                      return (
-                        <div
-                          key={job.jd_id}
-                          className="bg-white dark:bg-gray-800 dark:text-white rounded-lg shadow-md p-4 cursor-pointer"
-                          onClick={() => handleToggle(job.jd_id)}
-                        >
-                          {jdEditMode[job.jd_id] ? (
-                            <div className="space-y-1">
-                              {console.log(job)}
-                              <div className="flex flex-col justify-between">
-                                <label htmlFor="title" className="py-2">
-                                  Title
-                                </label>
-                                <input
-                                  type="text"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.title}
-                                  onChange={(e) => setTitle(e.target.value)}
-                                />
-
-                                <label htmlFor="title" className="py-2">
-                                  Job Description
-                                </label>
-                                <input
-                                  type="text"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.description}
-                                  onChange={(e) =>
-                                    setDescription(e.target.value)
-                                  }
-                                />
-
-                                {/* <label htmlFor="endDate" className="py-2">
-                                  End Date
-                                </label>
-                                <input
-                                  type="text"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.end_date}
-                                  onChange={(e) => setEndDate(e.target.value)}
-                                />
-
-                                <label htmlFor="experience" className="py-2">
-                                  Experience
-                                </label>
-                                <input
-                                  type="text"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.expereince}
-                                  onChange={(e) =>
-                                    setExperience(e.target.value)
-                                  }
-                                />
-
-                                <label htmlFor="salary" className="py-2">
-                                  Salary
-                                </label>
-                                <input
-                                  type="number"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.salary}
-                                  onChange={(e) => setSalary(e.target.value)}
-                                />
-
-                                <label htmlFor="qualification" className="py-2">
-                                  Qualification
-                                </label>
-                                <input
-                                  type="text"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.qualification}
-                                  onChange={(e) =>
-                                    setQualification(e.target.value)
-                                  }
-                                />
-
-                                <label htmlFor="location" className="py-2">
-                                  Location
-                                </label>
-                                <input
-                                  type="text"
-                                  className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2"
-                                  defaultValue={job.location}
-                                  onChange={(e) => setLocation(e.target.value)}
-                                /> */}
-
-                                <button
-                                  onClick={() =>
-                                    handleSave(
-                                      job.jd_id,
-                                      title,
-                                      description
-                                      //   endDate,
-                                      //   experience,
-                                      //   salary,
-                                      //   qualification,
-                                      //   location
-                                    )
-                                  }
-                                >
-                                  Save
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            <div>
-                              <div className="flex justify-between">
-                                <div>
-                                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                                    {job.title}
-                                  </h2>
-
-                                  {
-                                    <p className="text-gray-200 dark:text-gray-400 mt-2">
-                                      Click to view the full content and edit.
-                                    </p>
-                                  }
-                                </div>
-
-                                <div className="flex justify-end">
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleDelete(job.jd_id);
-                                    }}
-                                    className="text-white-500 bg-red-500 px-4  hover:text-red-700 hover:bg-gray-50"
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-
-                              {isExpanded[job.jd_id] && (
-                                <>
-                                  <hr className="my-4" />
-                                  <p className="text-gray-300">
-                                    Description:{job.description}
-                                  </p>
-                                  <p className="text-gray-300">
-                                    End Date: {job.end_date}
-                                  </p>
-                                  <p className="text-gray-300">
-                                    Experience: {job.expereince}
-                                  </p>
-                                  <p className="text-gray-300">
-                                    Salary: {job.salary} per annum
-                                  </p>
-                                  <p className="text-gray-300">
-                                    Qualification: {job.qualification}
-                                  </p>
-                                  <p className="text-gray-300">
-                                    Location: {job.location}
-                                  </p>
-                                  <p className="text-gray-300">
-                                    Skills: {job?.skills?.join(",")}
-                                  </p>
-                                  <button
-                                    onClick={() => toggleEditMode(job.jd_id)}
-                                    className="text-blue-500 hover:underline"
-                                  >
-                                    Edit
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+    <div className='flex '>
+      <Sidebar />
+      <div className='flex flex-col w-full'>
+        <Navbar />
+        <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen  font-semibold p-4">
+          <h1 className="text-3xl font-semibold dark:text-white/90 px-4 ">Dashboard</h1>
+          <h2 className="text-4xl font-semibold px-4 dark:text-white/80 mt-2">Welcome {data.name}</h2>
+          <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 px-4 mt-12'>
+            <div className="bg-zinc-100 shadow-lg hover:shadow-sky-600 duration-300 dark:bg-neutral-800 rounded-xl p-4 flex flex-row justify-between">
+              <div className="">
+                <h2 className="text-xl font-normal dark:text-neutral-500 ">Total JD Posted</h2>
+                <h1 className="text-3xl font-semibold dark:text-white">{jdCount}</h1>
               </div>
-            )}
-          </main>
+              <div>
+                <IoDocumentOutline className="text-6xl text-gray-400 dark:text-neutral-300" />
+              </div>
+            </div>
+            <div className="bg-zinc-100 shadow-lg hover:shadow-sky-600 duration-300 dark:bg-neutral-800 rounded-xl p-4 flex flex-row justify-between">
+              <div className="">
+                <h2 className="text-xl font-normal dark:text-neutral-500 ">Candidates Applied</h2>
+                <h1 className="text-3xl font-semibold dark:text-white">{4}</h1>
+              </div>
+              <div>
+                <FaUserGraduate className="text-6xl text-gray-400 dark:text-neutral-300" />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <h1 className="text-3xl font-semibold dark:text-white/80 px-4">Posted Job Description</h1>
+            <div className="mt-4 px-16">
+              {
+                jobData.map((job) => (
+                  <div className="bg-zinc-100 shadow-lg hover:shadow-sky-600 duration-300 dark:bg-neutral-800 rounded-xl p-4 flex flex-col justify-between mb-4" key={job.jd_id}>
+                    <div className="flex flex-row justify-between">
+                      <div className="flex flex-col">
+                        <div className="flex flex-col">
+                          <h2 className="text-xl font-normal dark:text-neutral-500 ">Role</h2>
+                          <h1 className="text-3xl font-semibold dark:text-white">{job.title}</h1>
+                        </div>
+                        <div className="flex flex-col">
+                          <h2 className="text-xl font-normal dark:text-neutral-500 ">Description</h2>
+                          <h1 className="text-3xl font-semibold dark:text-white">{job.description}</h1>
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex flex-col">
+                          <h2 className="text-xl font-normal dark:text-neutral-500 ">Applied</h2>
+                          <h1 className="text-3xl font-semibold text-center dark:text-white">{job.applied}</h1>
+                        </div>
+                        <div className="flex flex-col">
+                          <button className="bg-sky-600 hover:bg-sky-700 duration-300 text-white rounded-lg px-4 py-2 mt-4" onClick={() => handleToggle(job.jd_id)}>
+                            Edit
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+
+              }
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
