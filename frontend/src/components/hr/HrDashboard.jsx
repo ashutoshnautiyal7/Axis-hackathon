@@ -3,6 +3,8 @@ import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import PostJD from "../Form/PostJD";
+import React from "react";
+import Profile from "./profile";
 
 function HrDashboard() {
   const navigateTo = useNavigate();
@@ -140,54 +142,12 @@ function HrDashboard() {
         <div className=" ">
           <Navbar />
         </div>
-        <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen font-semibold p-4">
-          <header className="">
-            <h1 className="text-3xl font-semibold dark:text-white my-8 px-8">
-              Hello, {data.name}
-            </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 px-8">
-              <div className="bg-zinc-100 shadow-lg hover:shadow-sky-600 duration-300 dark:bg-neutral-800 rounded-xl p-4 flex flex-row justify-between">
-                <div className="space-y-1">
-                  <h2 className="text-xl font-normal dark:text-neutral-500 ">
-                    Your Profile
-                  </h2>
-                  <h1 className="text-2xl font-semibold dark:text-white/90">
-                    Name : {data.name}
-                  </h1>
-                  <h1 className="text-2xl font-semibold dark:text-white/90">
-                    Designation : {data.designation}
-                  </h1>
-                  <h1 className="text-2xl font-semibold dark:text-white/90">
-                    Company : {data.company_name}
-                  </h1>
-                </div>
-              </div>
-              <div className="bg-zinc-100 shadow-lg hover:shadow-sky-600 duration-300 dark:bg-neutral-800 rounded-xl p-4 flex flex-row justify-between">
-                <div className="space-y-1">
-                  <h2 className="text-xl font-normal dark:text-neutral-500 ">
-                    Job Descriptions
-                  </h2>
-                  <h1 className="text-2xl font-semibold dark:text-white/90">
-                    Total Posted : {jdCount}
-                  </h1>
-                  <h1 className="text-2xl font-semibold dark:text-white/90">
-                    Active : {jdCount}
-                  </h1>
-                  <h1 className="text-2xl font-semibold dark:text-white/90">
-                    Inactive : 0
-                  </h1>
-                </div>
-              </div>
-              <div className="bg-zinc-100 shadow-lg hover:shadow-sky-600 duration-300 dark:bg-neutral-800 rounded-xl p-4 flex flex-row justify-between">
-                <div className="space-y-1">
-                  <h2 className="text-xl font-normal dark:text-neutral-500 ">
-                    Users Applied
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </header>
+        <div className="mt-[50px]">
+          <Profile data={data} jdcount={jdCount} />
+        </div>
+
+        <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen font-semibold p-4">
           <main className="mt-8 px-8">
             <div className="flex flex-row">
               {addJob === false ? (
