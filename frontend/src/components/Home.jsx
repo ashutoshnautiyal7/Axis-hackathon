@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Login from "./Login/Login";
 
 function Home() {
   return (
@@ -9,7 +8,6 @@ function Home() {
           <button className="bg-slate-700">Go to Login</button>
         </Link>
       </div>
-
     </div>
   );
 }
