@@ -6,6 +6,7 @@ from auth.hr import *
 from auth.admin import *
 import os
 from ATS.parser import ResumeParser
+from ATS.ranking import resume_ranking
 from datetime import datetime
 import re
 import logging
@@ -222,6 +223,18 @@ def hr_post_jd():
     post_new_jd(data)
     return jsonify({'message':'Data posted successfully'}), 200
 
+@app.route('/api/hr/rank',methods = ['POST'])
+def rank_resume():
+    if request.method == 'POST':
+        data = request.get_json()
+        jd_id = data['jd_id']
+        description = data['content']
+        candidates_applied = get_applied_candidates(str(jd_id))
+        for candidate in candidates_applied:
+            data = resume_ranking(candidate['resume_path'], description)
+            candidate['score'] = data[0][1]    
+        return jsonify(candidates_applied)
+
 @app.route('/api/posted_jd',methods=['GET','PUT','DELETE'])
 def hr_posted_jd():
     hr_id = request.headers.get('X-HR-ID')
@@ -235,7 +248,7 @@ def hr_posted_jd():
     if request.method == 'PUT':
         data = request.get_json()
         update_posted_jd(data['jd_id'],data)
-        return jsonify({'message':'Data updated successfully'}), 200
+        return jsonify({'message':'Data updated successfully'})
     
     if request.method == 'DELETE':
         data = request.get_json()

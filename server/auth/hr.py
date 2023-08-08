@@ -92,7 +92,9 @@ def post_new_jd(data):
 
 def update_posted_jd(jd_id,updated_data):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
-    jd_data, count = supabase.table('jd').update(updated_data).eq('jd_id', jd_id).execute()
+    cleaned_salary = updated_data['salary'].replace(',', '')
+    updated_data['salary'] = cleaned_salary
+    jd_data,count = supabase.table('jd').update(updated_data).eq('jd_id',jd_id).execute()
     if jd_data:
         return 200
     return 401
@@ -103,3 +105,25 @@ def delete_posted_jd(jd_id):
     if jd_data:
         return 200
     return 401
+
+
+def get_applied_candidates(jd_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    jd_data, count = supabase.table('jd').select('applied').eq('jd_id', jd_id).execute()
+    applied_candidates = []
+    user_data,count = supabase.table('user').select('user_id','username','email','resume_path','phone','linkedin').execute() 
+
+    for i in range(len(jd_data[1][0]['applied'])):
+        for j in range(len(user_data[1])):
+            if str(jd_data[1][0]['applied'][i]) == str(user_data[1][j]['user_id']):
+                user = {
+                    'user_id': user_data[1][j]['user_id'],
+                    'username': user_data[1][j]['username'],
+                    'email': user_data[1][j]['email'],
+                    'phone': user_data[1][j]['phone'],
+                    'resume_path': user_data[1][j]['resume_path'],
+                    'linkedin': user_data[1][j]['linkedin'],
+                }
+                applied_candidates.append(user)
+    return applied_candidates
+        

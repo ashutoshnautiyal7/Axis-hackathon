@@ -59,8 +59,10 @@ const HrProfile = () => {
 
   return (
     <div className='flex '>
-      <Sidebar />
-      <div className='flex flex-col w-full'>
+      <div className="fixed left-0">
+        <Sidebar  />
+      </div>
+      <div className='flex flex-col w-full md:ml-[18rem]'>
         <Navbar />
         <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen pt-12 font-semibold p-4 px-8">
           <h1 className="text-3xl font-semibold dark:text-white/90 pb-4">User Profile</h1>

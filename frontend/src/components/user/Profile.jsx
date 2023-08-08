@@ -19,6 +19,7 @@ function Profile() {
             <div className='flex flex-col w-full'>
                 <Navbar />
                 <div className="text-xl bg-white/90 dark:bg-neutral-900 duration-300 min-h-screen  font-semibold p-4">
+                    Profile
                 </div>
             </div>
         </div>
