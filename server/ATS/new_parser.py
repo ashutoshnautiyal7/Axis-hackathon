@@ -6,6 +6,8 @@ from Pdf_extrator import pdf_parser
 from Img_extrator import ocr
 import docx2txt
 from utils import *
+import nltk
+nltk.download('stopwords')
 
 class ResumeParser(object):
     def __init__(self,resume,skills_file=None,custom_regex=None):
@@ -80,16 +82,16 @@ class ResumeParser(object):
             'linkedin_url':linkedin,
             'github_url':github
         }
-        print(type(resume_data))
-        json_data = json.dumps(resume_data,indent=4)
-        return json_data
+        # json_data = json.dumps(resume_data,indent=4)
+        # return json_data
+        return resume_data
 
     def resume_parser(self):
         return self.__get_details()
             
 if __name__ == '__main__':
-    resume_path = ["/Users/kuldeep/Project/Axis-Hack/server/data/8c36cb44-970a-4236-bdcd-05fc4a698d65/Kuldeep's Resume.pdf","/Users/kuldeep/Project/Axis-Hack/server/data/8c36cb44-970a-4236-bdcd-05fc4a698d65/22_50_39_John Doe.pdf","/Users/kuldeep/Project/Axis-Hack/resume_Predict/data/etl-developer-resume-1.pdf","/Users/kuldeep/Project/Axis-Hack/resume_Predict/data/Data-Scientist-Resume.pdf","/Users/kuldeep/Project/Axis-Hack/resume_Predict/data/Medical Sales Representative Resume.pdf"]
+    resume_path = ["/home/gladwin/Desktop/Axis-hackathoin/server/ATS/data/Data-Scientist-Resume.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/ATS/data/etl-developer-resume-1.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/ATS/data/Medical Sales Representative Resume.pdf"]
     for i in range(0,len(resume_path)):
-        data = ResumeParser(resume_path[i]).resume_parser()
-        print(data)
+        resume_data = ResumeParser(resume_path[i]).resume_parser()
+        print(resume_data)
         print("\n---------------------------------------------------\n")
