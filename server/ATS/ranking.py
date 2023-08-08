@@ -49,7 +49,7 @@ job_description = "Engineering graduate and postgraduate students from any strea
 
 attributes_order = ["skills", "degree", "total_experience", "experience", "designation"]
 
-resume_paths = ["/home/gladwin/Desktop/Axis-hackathoin/server/ATS/data/Data-Scientist-Resume.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/ATS/data/etl-developer-resume-1.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/ATS/data/Medical Sales Representative Resume.pdf"]
+resume_paths = ["/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/Data-Scientist-Resume.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/etl-developer-resume-1.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/Medical Sales Resume.pdf"]
 
 
 # Store combined scores and resume data
