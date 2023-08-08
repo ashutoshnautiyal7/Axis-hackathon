@@ -2,10 +2,10 @@ import json
 import spacy
 import os
 from spacy.matcher import Matcher
-from Pdf_extrator import pdf_parser
-from Img_extrator import ocr
+from ATS.Pdf_extrator import pdf_parser
+from ATS.Img_extrator import ocr
 import docx2txt
-from utils import *
+from ATS.utils import *
 
 class ResumeParser(object):
     def __init__(self,resume,skills_file=None,custom_regex=None):
@@ -80,7 +80,6 @@ class ResumeParser(object):
             'linkedin_url':linkedin,
             'github_url':github
         }
-        print(type(resume_data))
         json_data = json.dumps(resume_data,indent=4)
         return json_data
 

@@ -1,7 +1,9 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-from new_parser import ResumeParser  
+from ATS.parser import ResumeParser 
+import json
+
 
 def preprocess_text(text):
     # for future use
@@ -44,25 +46,20 @@ def generate_dynamic_weightage(data, attributes_order):
     
     return weightage_dict
 
-# job description and resume data
-job_description = "Engineering graduate and postgraduate students from any stream and postgraduate students in Computer Science, Mathematics, Statistics, Data Science or any degree which enforces an analytical mindset are welcome to apply for the Recruitment program."
+# resume_paths = ["/Users/kuldeep/Project/Axis-hackathoin/server/data/sample_resume/Data-Scientist-Resume.pdf","/Users/kuldeep/Project/Axis-hackathoin/server/data/sample_resume/etl-developer-resume-1.pdf","/Users/kuldeep/Project/Axis-hackathoin/server/data/sample_resume/Medical Sales Resume.pdf"]
 
-attributes_order = ["skills", "degree", "total_experience", "experience", "designation"]
+def resume_ranking(resume_paths,job_description):
+    # Store combined scores and resume data
+    resume_scores = []
+    # job description and resume data
+    attributes_order = ["skills", "degree", "total_experience", "experience", "designation"]
+        # Call ResumeParser with the resume path to parse the data
+    resume_data = ResumeParser(resume_paths).resume_parser()
 
-resume_paths = ["/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/Data-Scientist-Resume.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/etl-developer-resume-1.pdf","/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/Medical Sales Resume.pdf"]
-
-
-# Store combined scores and resume data
-resume_scores = []
-
-for i in range(0,len(resume_paths)):
-    # Call ResumeParser with the resume path to parse the data
-    resume_data = ResumeParser(resume_paths[i]).resume_parser()
-
-    # Generate dynamic weightage values
+    resume_data = json.loads(resume_data)
+        # Generate dynamic weightage values
     weightage_values = generate_dynamic_weightage(resume_data, attributes_order)
-
-    # append all values to list
+        # append all values to list
     attribute_values_list=[]
     for attribute, attribute_values in resume_data.items():
         attribute_values_list.append(attribute_values)
@@ -81,12 +78,19 @@ for i in range(0,len(resume_paths)):
 
     # Calculate and store the combined score for the resume
     combined_score = sum(combined_scores[attribute] for attribute in attributes_order) * 100
-    resume_scores.append((resume_paths[i], combined_score))
-    print(f'Resume : {i+1} process completed !!!')
+    resume_scores.append((resume_paths, combined_score))
+    
+    
+    # Sort resumes in descending order based on combined score
+    sorted_resumes = sorted(resume_scores, key=lambda x: x[1], reverse=True)
 
-# Sort resumes in descending order based on combined score
-sorted_resumes = sorted(resume_scores, key=lambda x: x[1], reverse=True)
+    return sorted_resumes
+
+
+
+    
 
 # Print sorted resumes and their combined scores
-for resume, score in sorted_resumes:
-    print(f"Resume: {resume} | Combined Score: {score:.2f}")
+if __name__ == '__main__':
+    for resume, score in sorted_resumes:
+        print(f"Resume: {resume} | Combined Score: {score:.2f}")
