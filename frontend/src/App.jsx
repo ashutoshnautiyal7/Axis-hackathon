@@ -14,6 +14,7 @@ import AdminUser from "./components/admin/AdminUser";
 import HrProfile from "./components/hr/HrProfile";
 import PostJD from "./components/hr/PostJD";
 import Jobform from "./components/hr/Jobform";
+import Quiz from "./components/QuizWindow/Quiz";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/admin/home/user" element={<AdminUser />} />
         <Route path="/interview-question" element={<QuestionandAnswer />} />
         <Route path="/hr/home/:id" element={<Jobform />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </BrowserRouter>
   );
