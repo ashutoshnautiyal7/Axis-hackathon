@@ -1,11 +1,10 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-from new_parser import ResumeParser  # Make sure the import is correct based on your 'parser' module
+from new_parser import ResumeParser  
 
 def preprocess_text(text):
-    # Add any text preprocessing steps here if required
-    # For this example, we don't need any additional preprocessing
+    # for future use
     return text
 
 def calculate_cosine_similarity(job_description, attribute_values_list):
@@ -19,7 +18,7 @@ def calculate_cosine_similarity(job_description, attribute_values_list):
             similarity_score = cosine_similarity(job_description_tfidf, attribute_tfidf)[0][0]
             scores.append(similarity_score)
         elif isinstance(attribute, list):
-            attribute_text = ' '.join(attribute)  # Join the list items into a single string
+            attribute_text = ' '.join(attribute) 
             attribute_tfidf = tfidf_vectorizer.transform([attribute_text])
             similarity_score = cosine_similarity(job_description_tfidf, attribute_tfidf)[0][0]
             scores.append(similarity_score)
@@ -45,7 +44,7 @@ def generate_dynamic_weightage(data, attributes_order):
     
     return weightage_dict
 
-# Sample job description and resume data
+# job description and resume data
 job_description = "Engineering graduate and postgraduate students from any stream and postgraduate students in Computer Science, Mathematics, Statistics, Data Science or any degree which enforces an analytical mindset are welcome to apply for the Recruitment program."
 
 attributes_order = ["skills", "degree", "total_experience", "experience", "designation"]
