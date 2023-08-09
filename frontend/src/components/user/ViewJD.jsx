@@ -62,7 +62,7 @@ function ViewJD() {
                         {data.map((item) => (
                             <div
                                 key={item.jd_id}
-                                className={`bg-white text-white dark:bg-neutral-800 p-4 my-2 rounded-lg shadow flex flex-row justify-between items-stretch ${hoveredCard === item.jd_id ? 'shadow-lg shadow-sky-500 duration-500' : ''}`}
+                                className={`bg-white dark:text-white dark:bg-neutral-800 p-4 my-2 rounded-lg shadow flex flex-row justify-between items-stretch ${hoveredCard === item.jd_id ? 'shadow-lg shadow-sky-500 duration-500' : ''}`}
                                 onMouseEnter={() => setHoveredCard(item.jd_id)}
                                 onMouseLeave={() => setHoveredCard(null)}
                             >

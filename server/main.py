@@ -206,14 +206,31 @@ def user_jd():
     data = applied_jd(user_id)
     return data
 
-
 @app.route('/api/user/shortlisted',methods = ['GET'])
 def user_shortlisted():
     user_id = request.headers.get('X-User-ID')
     if not user_id:
         return jsonify({'error':'User ID not found'}), 404
-    data = shortlisted_jd(user_id)
+    data , interview = shortlisted_jd(user_id)
     return data
+
+
+@app.route('/api/user/interview',methods = ['GET'])
+def user_shortlisted_interviews():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'error':'User ID not found'}), 404
+    data, interview = shortlisted_jd(user_id)
+    return jsonify(interview)
+
+@app.route('/api/user/domain/suggest',methods = ['GET'])
+def user_domain_suggest():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'error':'User ID not found'}), 404
+    data = predict_category(user_id)
+    return jsonify(data)
+
 
 @app.route('/api/hr',methods=['GET', "PUT"])
 def hr_profile():
@@ -307,7 +324,8 @@ def hr_shortlist():
         data = request.get_json()
         jd_id = data['jd_id']
         shortlisted = data['shortlisted']
-        response = shortlisted_candidates(jd_id,shortlisted)
+        shortlist_user_id = data['user_shortlist_id']
+        response = shortlisted_candidates(jd_id,shortlisted,shortlist_user_id)
         return jsonify({"message": response})
 
 @app.route('/api/hr/shortlist/test', methods=['GET','POST'])

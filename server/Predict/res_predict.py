@@ -20,22 +20,8 @@ Category = ['Data Science', 'HR', 'Advocate', 'Arts', 'Web Designing',
        'ETL Developer', 'DotNet Developer', 'Blockchain', 'Testing']
 """
 
-
-# Function to extract text from a PDF file
-def extract_text_from_pdf(pdf_file_path):
-    extract_start=time.time()
-    with open(pdf_file_path, "rb") as file:
-        pdf_reader = PyPDF2.PdfReader(file)
-        text = ""
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
-            text += page.extract_text()
-    extract_end=time.time()
-    print("extract time : ",((extract_end-extract_start) * 10**3)/1000, "s")
-    return text
-
 # Load the dataset containing "Category" and "Resume" columns
-df = pd.read_csv("/home/gladwin/Desktop/Axis-hackathoin/server/data/Resume_classify_csv/UpdatedResumeDataSet.csv") 
+df = pd.read_csv("./data/Resume_classify_csv/UpdatedResumeDataSet.csv") 
 
 # Preprocess the resume text (e.g., tokenization, vectorization)
 vectorizer = CountVectorizer(stop_words="english")
@@ -46,7 +32,7 @@ y = df["Category"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train the machine learning model and save it to a file using joblib
-model_filename = "/home/gladwin/Desktop/Axis-hackathoin/server/data/model file/resume_classifier_model.joblib"
+model_filename = "./data/model file/resume_classifier_model.joblib"
 
 
 if not os.path.exists(model_filename):
@@ -62,7 +48,7 @@ else:
     # Load the model from the saved file
     loaded_classifier = load(model_filename)
     model_old_end=time.time()
-    print("model old time : ",((model_old_end-model_old_start) * 10**3)/1000, "s")
+    print("model lold time : ",((model_old_end-model_old_start) * 10**3)/1000, "s")
 
 
 
@@ -81,7 +67,7 @@ def predict_category(resume_text):
 # Main Part
 if __name__ == "__main__":
     # Input file path
-    input_pdf_file_path = "/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/Data-Scientist-Resume.pdf"
+    input_pdf_file_path = "/Users/kuldeep/Project/Axis-hackathoin/server/data/8c36cb44-970a-4236-bdcd-05fc4a698d65/08_59_46_John Doe.pdf"
 
     # Extract text from the PDF file
     input_resume_text = extract_text_from_pdf(input_pdf_file_path)

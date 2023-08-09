@@ -5,6 +5,7 @@ import os
 import bcrypt
 import uuid
 import base64
+from Predict.res_predict import predict_category
 
 def generate_token(user_id, secret_key):
     """
@@ -106,6 +107,7 @@ def get_user_profile(user_id):
         'total_experience': data[1][0]['total_experience'],
         'github': data[1][0]['github'],
         'linkedin': data[1][0]['linkedin'],
+        'profile': data[1][0]['profile'],
     }
     return user_data
 
@@ -147,6 +149,8 @@ def applied_jd(user_id):
     return applied_jd
 
 
+
+
 def shortlisted_jd(user_id):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
     data, count = supabase.table('jd').select('applied','jd_id','title','description','hr_id').execute()
@@ -157,10 +161,28 @@ def shortlisted_jd(user_id):
 
     shortlisted = []
     user_shortlisted,count = supabase.table('shortlisted').select('jd_id','user_id').eq('user_id',user_id).execute()
-    print(user_shortlisted)
     if user_shortlisted[1]:
         for jd in applied_jd:
             if jd['jd_id'] in user_shortlisted[1][0]['jd_id']:
                 shortlisted.append(jd)
+
+    jd_id = shortlisted[0]['jd_id']
+
+    scheduled_data,count = supabase.table('scheduled').select('jd_id','selected_id','end_date').eq('jd_id',jd_id).execute()
     
-    return shortlisted
+    interview_data = {
+        'jd_id': jd_id,
+        'selected_id': scheduled_data[1][0]['selected_id'],
+        'end_date': scheduled_data[1][0]['end_date'],
+    }
+
+    return shortlisted , interview_data
+
+
+def domain_predict_category(user_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    user_data, count = supabase.table('user').select('resume_path').eq('user_id',user_id).execute()
+    resume_path = user_data[1][0]['resume_path']
+    with open(resume_path, 'r') as f:
+        resume = f.read()
+        print(resume)

@@ -102,6 +102,9 @@ function Rank() {
         const hr_id = localStorage.getItem("hr_id");
         const jd_id = localStorage.getItem("jd_id");
         console.log(shortlisted);
+        // Get the user_id of the shortlisted candidates
+        const user_id = shortlisted.map((item) => item.user_id);
+        console.log(user_id);
         const response = await fetch('/api/hr/shortlist', {
             method: "POST",
             headers: {
@@ -111,7 +114,8 @@ function Rank() {
             },
             body: JSON.stringify({
                 jd_id: jd_id,
-                shortlisted: shortlisted
+                shortlisted: shortlisted,
+                user_shortlist_id: user_id
             }),
         });
         const data = await response.json();

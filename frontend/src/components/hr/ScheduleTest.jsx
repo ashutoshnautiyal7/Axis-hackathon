@@ -29,6 +29,7 @@ function ScheduleTest() {
         });
         const data = await response.json();
         const filteredData = data.filter((item) => item.jd_id === localStorage.getItem("jd_id"));
+        
         setApplied(filteredData[0]['applied']);
         setTitle(filteredData[0]['title'])
         setDescription(filteredData[0]['description'])
@@ -49,7 +50,6 @@ function ScheduleTest() {
         const res = await response.json()
         const filterData = res.candidate_data.filter((item) => item.jd_id === localStorage.getItem("jd_id"));
         console.log(filterData)
-
         setData(filterData)
     }
 
@@ -114,7 +114,7 @@ function ScheduleTest() {
                                         Total Selected Candidates
                                     </h2>
                                     <h1 className="text-3xl font-semibold dark:text-white">
-                                        {applied}
+                                        {applied?.length}
                                     </h1>
                                 </div>
                             </div>

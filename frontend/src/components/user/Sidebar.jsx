@@ -12,8 +12,8 @@ const Sidebar = () => {
     { name: "Dashboard", link: "/home", icon: MdOutlineDashboard },
     { name: "Profile", link: "/profile", icon: AiOutlineUser },
     { name: "Apply Job", link: "/viewjd", icon: FiMessageSquare },
-    { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
-
+    { name: "analytics", link: "/", icon: TbReportAnalytics, },
+    { name: "Test", link: "/interview-question", icon: TbReportAnalytics},
   ];
   const [open, setOpen] = useState(true);
   return (

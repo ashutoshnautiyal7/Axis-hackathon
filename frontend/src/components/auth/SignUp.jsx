@@ -28,7 +28,7 @@ function Login() {
         setMessage(data.message);
         navigate("/home");
       } else {
-        setMessage("Login failed");
+        setMessage("Signup failed");
       }
     } catch (error) {
       console.log(error);
@@ -126,6 +126,7 @@ function Login() {
               </svg>
               Login with Google
             </button>
+            <span className="text-gray-400 text-sm mt-2">{message}</span>
           </div>
 
           <div className="md:block hidden w-[388px]">

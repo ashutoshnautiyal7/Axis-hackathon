@@ -128,7 +128,7 @@ def get_applied_candidates(jd_id):
     return applied_candidates
         
 
-def shortlisted_candidates(jd_id,data):
+def shortlisted_candidates(jd_id,data,shortlisted_candidates):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))    
     for i in range(len(data)):     
         jd_data, count = supabase.table('shortlisted').insert({
@@ -140,7 +140,12 @@ def shortlisted_candidates(jd_id,data):
             'linkedin': data[i]['linkedin'],
             'score': float(data[i]['score']),
         }).execute()
-    if jd_data:
+    
+    scheduled_data, count = supabase.table('scheduled').insert({
+        'selected_id':shortlisted_candidates
+    }).execute()
+
+    if jd_data and scheduled_data:
         return 200
 
     return 401
