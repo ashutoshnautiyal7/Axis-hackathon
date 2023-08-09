@@ -21,7 +21,7 @@ def MCQGen(num_questions, difficulty_level, topic):
         output_response.append(output)
         num_questions -= questions_to_generate
 
-
+   
     return output_response
     
 if __name__ == "__main__":

@@ -120,7 +120,7 @@ def update_user_profile(user_id,updated_data):
 
 def view_jd():
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
-    data, count = supabase.table('jd').select('jd_id','title','description','hr_id').execute()
+    data, count = supabase.table('jd').select('jd_id','title','description','hr_id','location','skills','end_date','salary').execute()
     if data:
         return data[1]
     return 401

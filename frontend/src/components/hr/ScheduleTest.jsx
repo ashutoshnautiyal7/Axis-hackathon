@@ -86,7 +86,6 @@ function ScheduleTest() {
         setEditMode(false)
     }
 
-
     return (
         <div className="flex dark:bg-neutral-950 ">
             <div className="fixed left-0">

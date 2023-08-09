@@ -173,3 +173,8 @@ def schedule_test(data):
     if shortlisted_data:
         return 200
     return 401
+
+def interview_question_generator():
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    question_data, count = supabase.table('questions').select('*').execute()
+    return
