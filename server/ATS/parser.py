@@ -80,7 +80,6 @@ class ResumeParser(object):
             'linkedin_url':linkedin,
             'github_url':github
         }
-        print(type(resume_data))
         json_data = json.dumps(resume_data,indent=4)
         return json_data
 

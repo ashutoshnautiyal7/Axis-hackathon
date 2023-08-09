@@ -92,7 +92,9 @@ def post_new_jd(data):
 
 def update_posted_jd(jd_id,updated_data):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
-    jd_data, count = supabase.table('jd').update(updated_data).eq('jd_id', jd_id).execute()
+    cleaned_salary = updated_data['salary'].replace(',', '')
+    updated_data['salary'] = cleaned_salary
+    jd_data,count = supabase.table('jd').update(updated_data).eq('jd_id',jd_id).execute()
     if jd_data:
         return 200
     return 401
@@ -103,3 +105,59 @@ def delete_posted_jd(jd_id):
     if jd_data:
         return 200
     return 401
+
+
+def get_applied_candidates(jd_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    jd_data, count = supabase.table('jd').select('applied').eq('jd_id', jd_id).execute()
+    applied_candidates = []
+    user_data,count = supabase.table('user').select('user_id','username','email','resume_path','phone','linkedin').execute() 
+
+    for i in range(len(jd_data[1][0]['applied'])):
+        for j in range(len(user_data[1])):
+            if str(jd_data[1][0]['applied'][i]) == str(user_data[1][j]['user_id']):
+                user = {
+                    'user_id': user_data[1][j]['user_id'],
+                    'username': user_data[1][j]['username'],
+                    'email': user_data[1][j]['email'],
+                    'phone': user_data[1][j]['phone'],
+                    'resume_path': user_data[1][j]['resume_path'],
+                    'linkedin': user_data[1][j]['linkedin'],
+                }
+                applied_candidates.append(user)
+    return applied_candidates
+        
+
+def shortlisted_candidates(jd_id,data):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))    
+    for i in range(len(data)):     
+        jd_data, count = supabase.table('shortlisted').insert({
+            'jd_id': jd_id,
+            'name': data[i]['username'],
+            'email': data[i]['email'],
+            'phone': data[i]['phone'],
+            'resume_path': data[i]['resume_path'],
+            'linkedin': data[i]['linkedin'],
+            'score': float(data[i]['score']),
+        }).execute()
+    if jd_data:
+        return 200
+
+    return 401
+
+def get_shortlisted():
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    shortlisted_data, count = supabase.table('shortlisted').select('*').execute()
+    shortlisted_candidates = []
+    for i in range(len(shortlisted_data[1])):
+        shortlisted_candidate = {
+            'jd_id': shortlisted_data[1][i]['jd_id'],
+            'name': shortlisted_data[1][i]['name'],
+            'email': shortlisted_data[1][i]['email'],
+            'phone': shortlisted_data[1][i]['phone'],
+            'resume_path': shortlisted_data[1][i]['resume_path'],
+            'linkedin': shortlisted_data[1][i]['linkedin'],
+            'score': shortlisted_data[1][i]['score'],
+        }
+        shortlisted_candidates.append(shortlisted_candidate)
+    return shortlisted_candidates

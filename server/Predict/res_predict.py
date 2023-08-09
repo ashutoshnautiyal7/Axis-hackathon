@@ -35,7 +35,7 @@ def extract_text_from_pdf(pdf_file_path):
     return text
 
 # Load the dataset containing "Category" and "Resume" columns
-df = pd.read_csv("data/UpdatedResumeDataSet.csv") 
+df = pd.read_csv("/home/gladwin/Desktop/Axis-hackathoin/server/data/Resume_classify_csv/UpdatedResumeDataSet.csv") 
 
 # Preprocess the resume text (e.g., tokenization, vectorization)
 vectorizer = CountVectorizer(stop_words="english")
@@ -46,7 +46,7 @@ y = df["Category"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train the machine learning model and save it to a file using joblib
-model_filename = "data/resume_classifier_model.joblib"
+model_filename = "/home/gladwin/Desktop/Axis-hackathoin/server/data/model file/resume_classifier_model.joblib"
 
 
 if not os.path.exists(model_filename):
@@ -81,7 +81,7 @@ def predict_category(resume_text):
 # Main Part
 if __name__ == "__main__":
     # Input file path
-    input_pdf_file_path = "data/Data-Scientist-Resume.pdf"
+    input_pdf_file_path = "/home/gladwin/Desktop/Axis-hackathoin/server/data/sample_resume/Data-Scientist-Resume.pdf"
 
     # Extract text from the PDF file
     input_resume_text = extract_text_from_pdf(input_pdf_file_path)

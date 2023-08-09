@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const menus = [
-    { name: "Dashboard", link: "/hr/home", icon: MdOutlineDashboard },
-    { name: "Profile", link: "/hr/profile", icon: AiOutlineUser },
-    { name: "Post JD", link: "/hr/postjd", icon: FiMessageSquare },
-    { name: "Rank Resume", link: "/hr/rank", icon: FiFolder },
-    { name: "Performance", link: "/hr/shortlist", icon: TbReportAnalytics},
-    { name: "Schedule Test", link: "/hr/schedule", icon: FiShoppingCart },
+    { name: "Dashboard", link: "/home", icon: MdOutlineDashboard },
+    { name: "Profile", link: "/profile", icon: AiOutlineUser },
+    { name: "Candidate", link: "", icon: FiMessageSquare },
+    { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
+    { name: "File Manager", link: "/", icon: FiFolder },
+    { name: "Cart", link: "/", icon: FiShoppingCart },
     { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
     { name: "Setting", link: "/", icon: RiSettings4Line },
   ];
