@@ -1,362 +1,200 @@
 import React from "react";
 import { useEffect, useMemo, useState } from "react";
+function Timer({ initialTime, onTimeout }) {
+  const [seconds, setSeconds] = useState(initialTime);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prevSeconds) => {
+        if (prevSeconds > 1) {
+          return prevSeconds - 1;
+        } else {
+          clearInterval(interval);
+          onTimeout();
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [onTimeout]);
+
+  return (
+    <div className="p-4 border rounded-lg shadow-md">
+      <p className="text-lg font-semibold mb-2">Time left: {seconds} seconds</p>
+      <div className="h-2 w-full bg-gray-200 rounded-lg">
+        <div
+          className="h-2 bg-blue-500 rounded-lg"
+          style={{ width: `${(seconds / initialTime) * 100}%` }}
+        ></div>
+      </div>
+    </div>
+  );
+}
 
 function Quiz() {
   const data = [
     {
       id: 1,
-      question: "Rolex is a company that specializes in what type of product?",
-      options: [
-        {
-          text: "Phone",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Watches",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "Food",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Cosmetic",
-          correct: false,
-          marked: false,
-        },
-      ],
+      question: "Which planet is known as the Red Planet?",
+      options: ["Earth", "Mars", "Jupiter", "Venus"],
+      answer: 1,
     },
     {
       id: 2,
-      question: "When did the website `Facebook` launch?",
-      options: [
-        {
-          text: "2004",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "2005",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "2006",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "2007",
-          correct: false,
-          marked: false,
-        },
-      ],
+      question: "What is the largest mammal?",
+      options: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+      answer: 1,
     },
     {
       id: 3,
-      question: "Who played the character of Harry Potter in the movie?",
-      options: [
-        {
-          text: "Johnny Depp",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Leonardo DiCaprio",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Denzel Washington",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Daniel Radcliffe",
-          correct: true,
-          marked: false,
-        },
-      ],
+      question: "Which gas do plants use for photosynthesis?",
+      options: ["Oxygen", "Carbon Dioxide", "Hydrogen", "Nitrogen"],
+      answer: 1,
     },
     {
       id: 4,
-      question: "What is the largest planet in our solar system?",
-      options: [
-        {
-          text: "Earth",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Mars",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Jupiter",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "Saturn",
-          correct: false,
-          marked: false,
-        },
-      ],
+      question: "What is the capital city of Japan?",
+      options: ["Beijing", "Seoul", "Tokyo", "Bangkok"],
+      answer: 2,
     },
     {
       id: 5,
-      question:
-        "Which famous scientist developed the theory of general relativity?",
+      question: "Who painted the Mona Lisa?",
       options: [
-        {
-          text: "Isaac Newton",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Albert Einstein",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "Stephen Hawking",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Galileo Galilei",
-          correct: false,
-          marked: false,
-        },
+        "Pablo Picasso",
+        "Leonardo da Vinci",
+        "Vincent van Gogh",
+        "Michelangelo",
       ],
+      answer: 1,
     },
-
-    {
-      id: 6,
-      question:
-        "Which planet is known as the 'Morning Star' or 'Evening Star'?",
-      options: [
-        {
-          text: "Mars",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Venus",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "Mercury",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Neptune",
-          correct: false,
-          marked: false,
-        },
-      ],
-    },
-    {
-      id: 7,
-      question: "What is the chemical symbol for water?",
-      options: [
-        {
-          text: "H2O",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "CO2",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "O2",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "NaCl",
-          correct: false,
-          marked: false,
-        },
-      ],
-    },
-    {
-      id: 8,
-      question: "Which famous scientist developed the theory of relativity?",
-      options: [
-        {
-          text: "Isaac Newton",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Albert Einstein",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "Galileo Galilei",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Niels Bohr",
-          correct: false,
-          marked: false,
-        },
-      ],
-    },
-    {
-      id: 9,
-      question: "What is the largest organ in the human body?",
-      options: [
-        {
-          text: "Heart",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Liver",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Brain",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Skin",
-          correct: true,
-          marked: false,
-        },
-      ],
-    },
-    {
-      id: 10,
-      question: "Which gas do plants primarily release during photosynthesis?",
-      options: [
-        {
-          text: "Carbon Dioxide",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Oxygen",
-          correct: true,
-          marked: false,
-        },
-        {
-          text: "Hydrogen",
-          correct: false,
-          marked: false,
-        },
-        {
-          text: "Nitrogen",
-          correct: false,
-          marked: false,
-        },
-      ],
-    },
-
-    // Add more questions here
   ];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [showNextQuestion, setShowNextQuestion] = useState(false);
 
-  const goToPreviousQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex((prev) => prev - 1);
-    }
-  };
+  const [markedOptions, setMarkedOptions] = useState(
+    new Array(data.length).fill(null)
+  );
+
   const goToNextQuestion = () => {
-    if (currentQuestionIndex < data.length - 1) {
+    if (currentQuestionIndex < data.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setCurrentQuestionIndex(0);
     }
+    setShowNextQuestion(false);
   };
 
   const setQuestion = (id) => {
     setCurrentQuestionIndex(id - 1);
   };
 
-  return (
-    <div className="bg-gray-900 h-screen flex  items-center justify-center text-white py-16">
-      <div className="bg-gray-900  flex flex-col items-start justify-center text-white py-16 w-[48rem]  -ml-64">
-        <div className="mb-8 text-3xl font-semibold">
-          {currentQuestionIndex + 1}. {data[currentQuestionIndex].question}
-        </div>
+  const handleOptionClick = (selectedOptionIndex) => {
+    const updatedMarkedOptions = [...markedOptions];
+    updatedMarkedOptions[currentQuestionIndex] = selectedOptionIndex;
+    setMarkedOptions(updatedMarkedOptions);
+    setShowNextQuestion(true);
 
-        <div className="grid grid-cols-2 gap-16">
-          {data[currentQuestionIndex].options.map((item, index) => (
-            <div
-              key={index}
-              className={`px-32 py-4 bg-gray-700 rounded-md cursor-pointer ${
-                item.marked
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "hover:bg-sky-600 transition-colors duration-300"
-              }`}
-              onClick={() => {
-                const updatedData = data.map((question, qIndex) => {
-                  if (qIndex === currentQuestionIndex) {
-                    const updatedOptions = question.options.map(
-                      (option, oIndex) => ({
-                        ...option,
-                        marked: oIndex === index,
-                      })
-                    );
-                    return { ...question, options: updatedOptions };
-                  }
-                  return question;
-                });
-                setCurrentQuestionIndex(currentQuestionIndex);
-              }}
-            >
-              {item.text}
-            </div>
-          ))}
-        </div>
+    setTimeout(goToNextQuestion, 500); // Delayed transition to next question
+  };
 
-        <div className="flex mt-8 space-x-4">
-          <button
-            className="px-4 py-2 outline outline-sky-500 text-white rounded-md hover:bg-sky-500 transition-colors duration-300"
-            onClick={goToPreviousQuestion}
-            disabled={currentQuestionIndex === 0}
-          >
-            Previous
-          </button>
-          <button
-            className="px-4 py-2 outline outline-sky-500 text-white rounded-md hover:bg-sky-500 transition-colors duration-300"
-            onClick={goToNextQuestion}
-            disabled={currentQuestionIndex === data.length - 1}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-      <div className="bg-gray-700 p-4  fixed pt-96 right-0 h-screen">
-        <div className="flex flex-col justify-center items-center ">
-          <div className="font-bold text-green-300">Questions</div>
-          <div className="grid grid-cols-5 gap-4">
-            {data.map((item,index) => (
-              <button
-                key={item.id}
-                onClick={() => setQuestion(item.id)}
-                className=" h-5 w-5 m-4"
-              > {index + 1} </button>
+  const currentQuestion = data[currentQuestionIndex];
+
+  console.log(markedOptions);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (currentQuestionIndex < data.length - 1) {
+        goToNextQuestion();
+      }
+    }, 30000); // 30 seconds
+
+    return () => clearTimeout(timeout);
+  }, [currentQuestionIndex, data.length]);
+
+  useEffect(() => {
+    // Calculate total marks
+
+    let currentTotal = 0;
+    for (let i = 0; i < data.length; i++) {
+      if (markedOptions[i] === data[i].answer) {
+        currentTotal++;
+      }
+    }
+    setTotal(currentTotal);
+  }, [markedOptions, currentQuestionIndex, data]);
+
+  console.log("the total marks are ", total);
+
+  if (currentQuestionIndex !== data.length) {
+    return (
+      <div className="bg-gray-900 h-screen flex items-center justify-center text-white py-16">
+        <div className="bg-gray-900  flex flex-col items-start justify-center text-white py-16 w-[48rem]  -ml-64">
+          <div className="mb-8 text-3xl font-semibold">
+            {currentQuestionIndex + 1}. {currentQuestion.question}
+          </div>
+
+          <div className="grid grid-cols-2 gap-16">
+            {currentQuestion.options.map((item, index) => (
+              <div
+                key={index}
+                className={`px-32 py-4 bg-gray-700 rounded-md cursor-pointer ${
+                  index === markedOptions[currentQuestionIndex]
+                    ? index === currentQuestion.answer
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-red-500 hover:bg-red-600"
+                    : "hover:bg-sky-600 transition-colors duration-300"
+                }`}
+                onClick={() => handleOptionClick(index)}
+              >
+                {item}
+              </div>
             ))}
+          </div>
+
+          <div className="flex mt-8  ">
+            <button
+              className="px-4 py-2 outline outline-sky-500 text-white rounded-md hover:bg-sky-500 transition-colors duration-300"
+              onClick={goToNextQuestion}
+              disabled={currentQuestionIndex === data.length - 1}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+        <div className="bg-gray-700 p-4  fixed pt-96 right-0 h-screen">
+          <Timer
+            key={currentQuestionIndex} // This key ensures the timer component is re-rendered when the question changes
+            initialTime={30}
+            onTimeout={goToNextQuestion}
+          />
+          <div className="flex flex-col justify-center items-center ">
+            <div className="font-bold text-green-300 mt-20">Questions</div>
+            <div className="grid grid-cols-5 gap-4">
+              {data.map((item) => (
+                <button
+                  key={item.id}
+                  // onClick={() => setQuestion(item.id)}
+                  className={`h-5 w-5 m-4 ${
+                    item.id === currentQuestionIndex + 1 ? "bg-sky-500" : ""
+                  }`}
+                >
+                  {item.id}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <div>Test has been submitted successfully </div>;
+  }
 }
 
 export default Quiz;
