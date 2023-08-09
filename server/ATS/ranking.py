@@ -92,6 +92,6 @@ def resume_ranking(resume_paths,job_description):
     
 
 # Print sorted resumes and their combined scores
-if __name__ == '__main__':
-    for resume, score in sorted_resumes:
-        print(f"Resume: {resume} | Combined Score: {score:.2f}")
+# if __name__ == '__main__':
+#     for resume, score in sorted_resumes:
+#         print(f"Resume: {resume} | Combined Score: {score:.2f}")

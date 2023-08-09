@@ -8,6 +8,7 @@ from auth.send_email import send_email
 import os
 from ATS.parser import ResumeParser
 from ATS.ranking import resume_ranking
+from ques.questiongen import MCQGen
 from datetime import datetime
 import re
 import logging
@@ -196,6 +197,24 @@ def user_view_jd():
     data = view_jd()
     return data
 
+
+@app.route('/api/user/applied',methods= ["GET"])
+def user_jd():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'error':'User ID not found'}), 404
+    data = applied_jd(user_id)
+    return data
+
+
+@app.route('/api/user/shortlisted',methods = ['GET'])
+def user_shortlisted():
+    user_id = request.headers.get('X-User-ID')
+    if not user_id:
+        return jsonify({'error':'User ID not found'}), 404
+    data = shortlisted_jd(user_id)
+    return data
+
 @app.route('/api/hr',methods=['GET', "PUT"])
 def hr_profile():
     hr_id = request.headers.get('X-Hr-ID')
@@ -256,7 +275,6 @@ def hr_posted_jd():
         delete_posted_jd(data['jd_id'])
         return jsonify({'message':'Data deleted successfully'}), 200
     
-
 @app.route('/api/applyjd',methods= ['PUT'])
 def applyjd():
     user_id = request.headers.get('X-User-ID')
@@ -298,7 +316,10 @@ def hr_shortlist_test():
     if not hr_id:
         return jsonify({'error':'HR ID not found'})
     
-    return jsonify({"message": "test"})
+    if request.method == 'POST':
+        data = request.get_json()
+        schedule_test(data)
+        return jsonify({"message": "test"})
 
 """ 
     All Admin Endpoints

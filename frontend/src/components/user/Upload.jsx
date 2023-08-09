@@ -54,7 +54,7 @@ function Upload() {
                     </label>
                 </div>
 
-                <button type='submit' onClick={handleFileUpload} className='outline outline-2 outline-purple-500 text-black dark:text-white py-2 px-4 rounded-md hover:bg-purple-600 hover:text-bold duration-300'>
+                <button type='submit' onClick={handleFileUpload} className='outline outline-2 outline-sky-500 text-black dark:text-white py-2 px-4 rounded-md hover:bg-sky-600 hover:text-bold duration-300'>
                     Submit
                 </button>
                 {message && <p className={message === 'File uploaded successfully!' ? 'text-green-500' : 'text-red-500'}>{message}</p>}

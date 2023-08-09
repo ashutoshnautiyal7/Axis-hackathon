@@ -34,7 +34,7 @@ const PdfPreviewer = ({ pdfBase64 }) => {
   };
 
   return (
-    <div className='min-h-screen '>
+    <div className=''>
       {pdfData && (
         <div>
           <Document

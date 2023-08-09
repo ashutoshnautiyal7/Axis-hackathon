@@ -55,7 +55,7 @@ function PostJD() {
                                         Job Title
                                     </label>
                                     <div className="mt-1">
-                                        <input type="text" name="title" id="title" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="Job Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                                        <input type="text" name="title" id="title" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="Job Title" value={title} onChange={(e) => setTitle(e.target.value)} />
                                     </div>
                                 </div>
                                 <div className="mt-4">
@@ -63,7 +63,7 @@ function PostJD() {
                                         Job Description
                                     </label>
                                     <div className="mt-1">
-                                        <textarea type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="Job Description" value={description} onChange={(e) => setDescription(e.target.value)}
+                                        <textarea type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="Job Description" value={description} onChange={(e) => setDescription(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@ function PostJD() {
                                         Location
                                     </label>
                                     <div className="mt-1">
-                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="Job Location" value={location} onChange={(e) => setLocation(e.target.value)}
+                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="Job Location" value={location} onChange={(e) => setLocation(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@ function PostJD() {
                                         Qualification
                                     </label>
                                     <div className="mt-1">
-                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="Qualification" value={qualification} onChange={(e) => setQualification(e.target.value)}
+                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="Qualification" value={qualification} onChange={(e) => setQualification(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@ function PostJD() {
                                         Experience
                                     </label>
                                     <div className="mt-1">
-                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="Experience" value={experience} onChange={(e) => setExperience(e.target.value)}
+                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="Experience" value={experience} onChange={(e) => setExperience(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@ function PostJD() {
                                         Skill Set
                                     </label>
                                     <div className="mt-1">
-                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="Python,ReactJS..." value={skills} onChange={(e) => setSkills(e.target.value)}
+                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="Python,ReactJS..." value={skills} onChange={(e) => setSkills(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -108,7 +108,7 @@ function PostJD() {
                                         Salary
                                     </label>
                                     <div className="mt-1">
-                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" placeholder="1,00,000" value={salary} onChange={(e) => setSalary(e.target.value)}
+                                        <input type="text" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 w-1/2" required placeholder="1,00,000" value={salary} onChange={(e) => setSalary(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@ function PostJD() {
                                         Date
                                     </label>
                                     <div className="mt-1">
-                                        <input type="date" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 w-1/2" placeholder="Job Description" value={endDate} required onChange={(e) => setEndDate(e.target.value)}
+                                        <input type="date" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 w-1/2" required placeholder="Job Description" value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>
                                 </div>

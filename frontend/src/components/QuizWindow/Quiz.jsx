@@ -289,7 +289,7 @@ function Quiz() {
 
   return (
     <div className="bg-gray-900 h-screen flex  items-center justify-center text-white py-16">
-      <div className="bg-gray-900 min-h-screen flex flex-col items-start justify-center text-white py-16  -ml-64">
+      <div className="bg-gray-900  flex flex-col items-start justify-center text-white py-16 w-[48rem]  -ml-64">
         <div className="mb-8 text-3xl font-semibold">
           {currentQuestionIndex + 1}. {data[currentQuestionIndex].question}
         </div>
@@ -301,7 +301,7 @@ function Quiz() {
               className={`px-32 py-4 bg-gray-700 rounded-md cursor-pointer ${
                 item.marked
                   ? "bg-green-500 hover:bg-green-600"
-                  : "hover:bg-blue-600 transition-colors duration-300"
+                  : "hover:bg-sky-600 transition-colors duration-300"
               }`}
               onClick={() => {
                 const updatedData = data.map((question, qIndex) => {
@@ -326,14 +326,14 @@ function Quiz() {
 
         <div className="flex mt-8 space-x-4">
           <button
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 transition-colors duration-300"
+            className="px-4 py-2 outline outline-sky-500 text-white rounded-md hover:bg-sky-500 transition-colors duration-300"
             onClick={goToPreviousQuestion}
             disabled={currentQuestionIndex === 0}
           >
             Previous
           </button>
           <button
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 transition-colors duration-300"
+            className="px-4 py-2 outline outline-sky-500 text-white rounded-md hover:bg-sky-500 transition-colors duration-300"
             onClick={goToNextQuestion}
             disabled={currentQuestionIndex === data.length - 1}
           >
@@ -341,16 +341,16 @@ function Quiz() {
           </button>
         </div>
       </div>
-      <div className="bg-gray-700 p-16  fixed right-20">
-        <div className="flex flex-col ">
+      <div className="bg-gray-700 p-4  fixed pt-96 right-0 h-screen">
+        <div className="flex flex-col justify-center items-center ">
           <div className="font-bold text-green-300">Questions</div>
           <div className="grid grid-cols-5 gap-4">
-            {data.map((item) => (
+            {data.map((item,index) => (
               <button
                 key={item.id}
                 onClick={() => setQuestion(item.id)}
-                className="bg-gray-100 h-5 w-5 m-4"
-              ></button>
+                className=" h-5 w-5 m-4"
+              > {index + 1} </button>
             ))}
           </div>
         </div>

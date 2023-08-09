@@ -161,3 +161,10 @@ def get_shortlisted():
         }
         shortlisted_candidates.append(shortlisted_candidate)
     return shortlisted_candidates
+
+def schedule_test(data):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    shortlisted_data, count = supabase.table('scheduled').insert(data).execute()
+    if shortlisted_data:
+        return 200
+    return 401

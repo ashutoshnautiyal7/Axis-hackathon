@@ -86,20 +86,26 @@ def create_user_profile(user_id, user_data):
 
 def get_user_profile(user_id):
     supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
-    data, count = supabase.table('user').select('user_id', 'email', 'username', 'degree','phone','resume_path').eq('user_id',user_id).execute()
+    data, count = supabase.table('user').select('*').eq('user_id',user_id).execute()
     try:
         with open(data[1][0]['resume_path'], "rb") as resume_file:
             encoded_string = base64.b64encode(resume_file.read())
     except:
         encoded_string = None
-
+   
     user_data = {
         'username':data[1][0]['username'],
         'email':data[1][0]['email'],
         'degree':data[1][0]['degree'],
         'phone':data[1][0]['phone'],
         'resume_base64': encoded_string.decode('utf-8') if encoded_string else None,
-        'resume_url':data[1][0]['resume_path']
+        'resume_url':data[1][0]['resume_path'],
+        'skills': data[1][0]['skills'],
+        'experience': data[1][0]['experience'],
+        'college_name': data[1][0]['college_name'],
+        'total_experience': data[1][0]['total_experience'],
+        'github': data[1][0]['github'],
+        'linkedin': data[1][0]['linkedin'],
     }
     return user_data
 
@@ -130,3 +136,31 @@ def apply_jd(user_id,jd_id):
     if _:
         return 200  
     return 401
+
+def applied_jd(user_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    data, count = supabase.table('jd').select('applied','jd_id','title','description','hr_id').execute()
+    applied_jd = []
+    for jd in data[1]:
+        if jd['applied'] is not None and user_id in jd['applied']:
+            applied_jd.append(jd)
+    return applied_jd
+
+
+def shortlisted_jd(user_id):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    data, count = supabase.table('jd').select('applied','jd_id','title','description','hr_id').execute()
+    applied_jd = []
+    for jd in data[1]:
+        if jd['applied'] is not None and user_id in jd['applied']:
+            applied_jd.append(jd)
+
+    shortlisted = []
+    user_shortlisted,count = supabase.table('shortlisted').select('jd_id','user_id').eq('user_id',user_id).execute()
+    print(user_shortlisted)
+    if user_shortlisted[1]:
+        for jd in applied_jd:
+            if jd['jd_id'] in user_shortlisted[1][0]['jd_id']:
+                shortlisted.append(jd)
+    
+    return shortlisted

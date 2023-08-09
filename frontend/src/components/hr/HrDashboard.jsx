@@ -82,7 +82,7 @@ function HrDashboard() {
           <h1 className="text-3xl font-semibold dark:text-white/90 px-8 ">
             Dashboard
           </h1>
-          <h2 className="text-4xl font-semibold px-8 dark:text-white/80 mt-8">
+          <h2 className="text-2xl font-semibold px-8 dark:text-white/80 mt-8">
             Welcome {data.name}
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-8 mt-12">

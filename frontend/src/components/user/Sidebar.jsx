@@ -11,18 +11,15 @@ const Sidebar = () => {
   const menus = [
     { name: "Dashboard", link: "/home", icon: MdOutlineDashboard },
     { name: "Profile", link: "/profile", icon: AiOutlineUser },
-    { name: "Candidate", link: "", icon: FiMessageSquare },
+    { name: "Apply Job", link: "/viewjd", icon: FiMessageSquare },
     { name: "analytics", link: "/", icon: TbReportAnalytics, margin: true },
-    { name: "File Manager", link: "/", icon: FiFolder },
-    { name: "Cart", link: "/", icon: FiShoppingCart },
-    { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
-    { name: "Setting", link: "/", icon: RiSettings4Line },
+
   ];
   const [open, setOpen] = useState(true);
   return (
-    <div className="relative">
+    <div className="">
       <div
-        className={`bg-zinc-100 dark:bg-neutral-950 dark:text-white  h-screen ${open ? "w-72" : "w-16"} duration-500 px-4`}>
+        className={`bg-zinc-100 dark:bg-neutral-950 dark:text-white  h-full ${open ? "w-72" : "w-16"} duration-500 px-4`}>
         <div className="py-3 flex justify-end ">
           <HiMenuAlt3 size={26} className="cursor-pointer " onClick={() => setOpen(!open)} />
         </div>
@@ -38,6 +35,7 @@ const Sidebar = () => {
                   } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
               >
                 {menu?.name}
+
               </h2>
             </Link>
           ))}
