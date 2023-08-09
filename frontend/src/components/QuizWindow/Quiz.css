@@ -1,16 +1,11 @@
 .app {
   height: 100vh;
   display: flex;
-  color: white;
-  background-color: #020230;
+  color: #ffffff;
+  background-color: #121212; /* Dark background color */
 }
 
-.main {
-  width: 100%;
 
-  display: flex;
-  flex-direction: column;
-}
 
 .moneyList {
   padding: 20px;
@@ -27,7 +22,7 @@
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  border: 5px solid white;
+  border: 5px solid #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,6 +31,7 @@
   left: 80px;
   font-size: 30px;
   font-weight: 700;
+  background-color: #060829; /* Dark background color */
 }
 
 .bottom {
@@ -43,10 +39,13 @@
 }
 
 .trivia {
-  height: 100%;
+  height: 70%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
   justify-content: space-around;
 }
 
@@ -56,7 +55,7 @@
   text-align: center;
   padding: 20px;
   border-radius: 10px;
-  border: 2px solid white;
+  border: 2px solid #ffffff;
   font-size: 20px;
 }
 
@@ -73,7 +72,7 @@
   margin: 0 10px 20px 10px;
   text-align: center;
   background: linear-gradient(#0e0124, #22074d);
-  border: 1px solid white;
+  border: 1px solid #ffffff;
   border-radius: 15px;
   font-weight: 300;
   font-size: 20px;
@@ -82,7 +81,7 @@
 
 .answer:hover,
 .answer.active {
-  background: mediumblue;
+  background: #1976d2; /* Change to a shade of blue for hover and active state */
 }
 
 .answer.correct {
@@ -93,7 +92,7 @@
   0%,
   22%,
   42% {
-    background: mediumblue;
+    background: #1976d2; /* Change to a shade of blue */
   }
   20%,
   40%,
@@ -102,7 +101,7 @@
   }
   62%,
   100% {
-    background: green;
+    background: #00e676; /* Green color for correct answer */
   }
 }
 
@@ -114,7 +113,7 @@
   0%,
   22%,
   42% {
-    background: mediumblue;
+    background: #1976d2; /* Change to a shade of blue */
   }
   20%,
   40%,
@@ -123,7 +122,7 @@
   }
   62%,
   100% {
-    background: crimson;
+    background: #ff3d00; /* Red color for wrong answer */
   }
 }
 
@@ -158,6 +157,8 @@
   border-radius: 5px;
   text-align: center;
   font-size: 18px;
+  background-color: #212121; /* Darker background color for input */
+  color: #ffffff; /* Text color */
 }
 
 .startInput:focus {
@@ -172,4 +173,10 @@
   cursor: pointer;
   font-size: 18px;
   font-weight: 500;
+  background-color: #1976d2; /* Blue color for the button */
+  color: #ffffff; /* Text color */
+}
+
+.startButton:hover {
+  background-color: #1565c0; /* Darker blue color for hover state */
 }

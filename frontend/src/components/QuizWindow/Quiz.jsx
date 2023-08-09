@@ -1,161 +1,360 @@
 import React from "react";
 import { useEffect, useMemo, useState } from "react";
 
-import Start from "./Start";
-import Timer from "./Timer";
-import Trivia from "./Trivia";
-
-import "./Quiz.css";
 function Quiz() {
-  const [username, setUsername] = useState(null);
-  const [timeOut, setTimeOut] = useState(false);
-  const [questionNumber, setQuestionNumber] = useState(1);
-  const [earned, setEarned] = useState("$ 0");
-
   const data = [
     {
       id: 1,
       question: "Rolex is a company that specializes in what type of product?",
-      answers: [
+      options: [
         {
           text: "Phone",
           correct: false,
+          marked: false,
         },
         {
           text: "Watches",
           correct: true,
+          marked: false,
         },
         {
           text: "Food",
           correct: false,
+          marked: false,
         },
         {
           text: "Cosmetic",
           correct: false,
+          marked: false,
         },
       ],
     },
     {
       id: 2,
       question: "When did the website `Facebook` launch?",
-      answers: [
+      options: [
         {
           text: "2004",
           correct: true,
+          marked: false,
         },
         {
           text: "2005",
           correct: false,
+          marked: false,
         },
         {
           text: "2006",
           correct: false,
+          marked: false,
         },
         {
           text: "2007",
           correct: false,
+          marked: false,
         },
       ],
     },
     {
       id: 3,
-      question: "Who played the character of harry potter in movie?",
-      answers: [
+      question: "Who played the character of Harry Potter in the movie?",
+      options: [
         {
-          text: "Johnny Deep",
+          text: "Johnny Depp",
           correct: false,
+          marked: false,
         },
         {
-          text: "Leonardo Di Caprio",
+          text: "Leonardo DiCaprio",
           correct: false,
+          marked: false,
         },
         {
           text: "Denzel Washington",
           correct: false,
+          marked: false,
         },
         {
-          text: "Daniel Red Cliff",
+          text: "Daniel Radcliffe",
           correct: true,
+          marked: false,
         },
       ],
     },
+    {
+      id: 4,
+      question: "What is the largest planet in our solar system?",
+      options: [
+        {
+          text: "Earth",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Mars",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Jupiter",
+          correct: true,
+          marked: false,
+        },
+        {
+          text: "Saturn",
+          correct: false,
+          marked: false,
+        },
+      ],
+    },
+    {
+      id: 5,
+      question:
+        "Which famous scientist developed the theory of general relativity?",
+      options: [
+        {
+          text: "Isaac Newton",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Albert Einstein",
+          correct: true,
+          marked: false,
+        },
+        {
+          text: "Stephen Hawking",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Galileo Galilei",
+          correct: false,
+          marked: false,
+        },
+      ],
+    },
+
+    {
+      id: 6,
+      question:
+        "Which planet is known as the 'Morning Star' or 'Evening Star'?",
+      options: [
+        {
+          text: "Mars",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Venus",
+          correct: true,
+          marked: false,
+        },
+        {
+          text: "Mercury",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Neptune",
+          correct: false,
+          marked: false,
+        },
+      ],
+    },
+    {
+      id: 7,
+      question: "What is the chemical symbol for water?",
+      options: [
+        {
+          text: "H2O",
+          correct: true,
+          marked: false,
+        },
+        {
+          text: "CO2",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "O2",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "NaCl",
+          correct: false,
+          marked: false,
+        },
+      ],
+    },
+    {
+      id: 8,
+      question: "Which famous scientist developed the theory of relativity?",
+      options: [
+        {
+          text: "Isaac Newton",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Albert Einstein",
+          correct: true,
+          marked: false,
+        },
+        {
+          text: "Galileo Galilei",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Niels Bohr",
+          correct: false,
+          marked: false,
+        },
+      ],
+    },
+    {
+      id: 9,
+      question: "What is the largest organ in the human body?",
+      options: [
+        {
+          text: "Heart",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Liver",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Brain",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Skin",
+          correct: true,
+          marked: false,
+        },
+      ],
+    },
+    {
+      id: 10,
+      question: "Which gas do plants primarily release during photosynthesis?",
+      options: [
+        {
+          text: "Carbon Dioxide",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Oxygen",
+          correct: true,
+          marked: false,
+        },
+        {
+          text: "Hydrogen",
+          correct: false,
+          marked: false,
+        },
+        {
+          text: "Nitrogen",
+          correct: false,
+          marked: false,
+        },
+      ],
+    },
+
+    // Add more questions here
   ];
 
-  //   const moneyPyramid = useMemo(
-  //     () =>
-  //       [
-  //         { id: 1, amount: "$ 100" },
-  //         { id: 2, amount: "$ 200" },
-  //         { id: 3, amount: "$ 300" },
-  //         { id: 4, amount: "$ 500" },
-  //         { id: 5, amount: "$ 1.000" },
-  //         { id: 6, amount: "$ 2.000" },
-  //         { id: 7, amount: "$ 4.000" },
-  //         { id: 8, amount: "$ 8.000" },
-  //         { id: 9, amount: "$ 16.000" },
-  //         { id: 10, amount: "$ 32.000" },
-  //         { id: 11, amount: "$ 64.000" },
-  //         { id: 12, amount: "$ 125.000" },
-  //         { id: 13, amount: "$ 250.000" },
-  //         { id: 14, amount: "$ 500.000" },
-  //         { id: 15, amount: "$ 1.000.000" },
-  //       ].reverse(),
-  //     []
-  //   );
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  //   useEffect(() => {
-  //     questionNumber > 1 &&
-  //       setEarned(moneyPyramid.find((m) => m.id === questionNumber - 1).amount);
-  //   }, [questionNumber, moneyPyramid]);
+  const goToPreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex((prev) => prev - 1);
+    }
+  };
+  const goToNextQuestion = () => {
+    if (currentQuestionIndex < data.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+  };
+
+  const setQuestion = (id) => {
+    setCurrentQuestionIndex(id - 1);
+  };
 
   return (
-    <div className="app">
-      {!username ? (
-        <Start setUsername={setUsername} />
-      ) : (
-        <>
-          <div className="main">
-            {timeOut ? (
-              <h1 className="endText">You earned: {earned}</h1>
-            ) : (
-              <>
-                <div className="top">
-                  <div className="timer">
-                    <Timer
-                      setTimeOut={setTimeOut}
-                      questionNumber={questionNumber}
-                    />
-                  </div>
-                </div>
-                <div className="bottom">
-                  <Trivia
-                    data={data}
-                    questionNumber={questionNumber}
-                    setQuestionNumber={setQuestionNumber}
-                    setTimeOut={setTimeOut}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-          {/* <div className="pyramid">
-            <ul className="moneyList">
-              {moneyPyramid.map((m) => (
-                <li
-                  className={
-                    questionNumber === m.id
-                      ? "moneyListItem active"
-                      : "moneyListItem"
+    <div className="bg-gray-900 h-screen flex  items-center justify-center text-white py-16">
+      <div className="bg-gray-900 min-h-screen flex flex-col items-start justify-center text-white py-16  -ml-64">
+        <div className="mb-8 text-3xl font-semibold">
+          {currentQuestionIndex + 1}. {data[currentQuestionIndex].question}
+        </div>
+
+        <div className="grid grid-cols-2 gap-16">
+          {data[currentQuestionIndex].options.map((item, index) => (
+            <div
+              key={index}
+              className={`px-32 py-4 bg-gray-700 rounded-md cursor-pointer ${
+                item.marked
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "hover:bg-blue-600 transition-colors duration-300"
+              }`}
+              onClick={() => {
+                const updatedData = data.map((question, qIndex) => {
+                  if (qIndex === currentQuestionIndex) {
+                    const updatedOptions = question.options.map(
+                      (option, oIndex) => ({
+                        ...option,
+                        marked: oIndex === index,
+                      })
+                    );
+                    return { ...question, options: updatedOptions };
                   }
-                >
-                  <span className="moneyListItemNumber">{m.id}</span>
-                  <span className="moneyListItemAmount">{m.amount}</span>
-                </li>
-              ))}
-            </ul>
-          </div> */}
-        </>
-      )}
+                  return question;
+                });
+                setCurrentQuestionIndex(currentQuestionIndex);
+              }}
+            >
+              {item.text}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex mt-8 space-x-4">
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 transition-colors duration-300"
+            onClick={goToPreviousQuestion}
+            disabled={currentQuestionIndex === 0}
+          >
+            Previous
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 transition-colors duration-300"
+            onClick={goToNextQuestion}
+            disabled={currentQuestionIndex === data.length - 1}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+      <div className="bg-gray-700 p-16  fixed right-20">
+        <div className="flex flex-col ">
+          <div className="font-bold text-green-300">Questions</div>
+          <div className="grid grid-cols-5 gap-4">
+            {data.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setQuestion(item.id)}
+                className="bg-gray-100 h-5 w-5 m-4"
+              ></button>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
