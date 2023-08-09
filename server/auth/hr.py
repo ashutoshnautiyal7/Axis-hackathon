@@ -127,3 +127,37 @@ def get_applied_candidates(jd_id):
                 applied_candidates.append(user)
     return applied_candidates
         
+
+def shortlisted_candidates(jd_id,data):
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))    
+    for i in range(len(data)):     
+        jd_data, count = supabase.table('shortlisted').insert({
+            'jd_id': jd_id,
+            'name': data[i]['username'],
+            'email': data[i]['email'],
+            'phone': data[i]['phone'],
+            'resume_path': data[i]['resume_path'],
+            'linkedin': data[i]['linkedin'],
+            'score': float(data[i]['score']),
+        }).execute()
+    if jd_data:
+        return 200
+
+    return 401
+
+def get_shortlisted():
+    supabase = create_client(os.environ.get('SUPABASE_URL'), os.environ.get('SUPABASE_KEY'))
+    shortlisted_data, count = supabase.table('shortlisted').select('*').execute()
+    shortlisted_candidates = []
+    for i in range(len(shortlisted_data[1])):
+        shortlisted_candidate = {
+            'jd_id': shortlisted_data[1][i]['jd_id'],
+            'name': shortlisted_data[1][i]['name'],
+            'email': shortlisted_data[1][i]['email'],
+            'phone': shortlisted_data[1][i]['phone'],
+            'resume_path': shortlisted_data[1][i]['resume_path'],
+            'linkedin': shortlisted_data[1][i]['linkedin'],
+            'score': shortlisted_data[1][i]['score'],
+        }
+        shortlisted_candidates.append(shortlisted_candidate)
+    return shortlisted_candidates

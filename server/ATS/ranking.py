@@ -52,6 +52,7 @@ def resume_ranking(resume_paths,job_description):
     # Store combined scores and resume data
     resume_scores = []
     # job description and resume data
+    job_description = "Join our team as a Marketing Coordinator at ABC Company! Collaborate on dynamic digital marketing campaigns, using SEO, SEM, and social media strategies to drive a 20 surge in website traffic. Leverage market research skills with Google Analytics and Marketo to elevate customer satisfaction by 15%. Elevate our social media presence, fostering 25 higher engagement. Bring your content creation, email marketing, and project management proficiency to our innovative environment. Your degree in Marketing, HubSpot and Google Ads certifications, and XYZ University's Marketing Excellence Award (2022) set you apart. Fluency in English and intermediate Spanish, plus adaptable project execution, ensures your success. Apply today!"
     attributes_order = ["skills", "degree", "total_experience", "experience", "designation"]
         # Call ResumeParser with the resume path to parse the data
     resume_data = ResumeParser(resume_paths).resume_parser()

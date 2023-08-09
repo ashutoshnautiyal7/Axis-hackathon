@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from auth.user import *
 from auth.hr import *
 from auth.admin import *
+from auth.send_email import send_email
 import os
 from ATS.parser import ResumeParser
 from ATS.ranking import resume_ranking
@@ -232,7 +233,7 @@ def rank_resume():
         candidates_applied = get_applied_candidates(str(jd_id))
         for candidate in candidates_applied:
             data = resume_ranking(candidate['resume_path'], description)
-            candidate['score'] = data[0][1]    
+            candidate['score'] = data[0][1]   
         return jsonify(candidates_applied)
 
 @app.route('/api/posted_jd',methods=['GET','PUT','DELETE'])
@@ -266,10 +267,38 @@ def applyjd():
     return jsonify({'Applied for' : 'user_id'})
 
 
-@app.route('/send_email', methods=['POST'])
-def send_email():
-    response = send_email()
+@app.route('/api/hr/send_email', methods=['POST'])
+def hr_email():
+    email = "test.purposes27.5@gmail.com"
+    send_password = 'fhwjldldvnoqzxel'
+    data = request.get_json()
+    response = send_email(email,send_password,str(data['email']),data['subject'],data['body'])
     return jsonify({"message": response})
+
+
+@app.route('/api/hr/shortlist', methods=['GET','POST'])
+def hr_shortlist():
+    hr_id = request.headers.get('X-Hr-ID')
+    if not hr_id:
+        return jsonify({'error':'HR ID not found'})
+    if request.method == 'GET':
+        # data = request.get_json()
+        response = get_shortlisted()
+        return jsonify({"candidate_data": response})
+    if request.method == 'POST':
+        data = request.get_json()
+        jd_id = data['jd_id']
+        shortlisted = data['shortlisted']
+        response = shortlisted_candidates(jd_id,shortlisted)
+        return jsonify({"message": response})
+
+@app.route('/api/hr/shortlist/test', methods=['GET','POST'])
+def hr_shortlist_test():
+    hr_id = request.headers.get('X-Hr-ID')
+    if not hr_id:
+        return jsonify({'error':'HR ID not found'})
+    
+    return jsonify({"message": "test"})
 
 """ 
     All Admin Endpoints

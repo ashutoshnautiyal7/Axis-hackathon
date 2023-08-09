@@ -13,12 +13,12 @@ import AdminHr from './components/admin/AdminHr'
 import AdminUser from './components/admin/AdminUser'
 import HrProfile from './components/hr/HrProfile'
 import PostJD from './components/hr/PostJD'
-<<<<<<< HEAD
-import Jobform from './components/hr/JobForm'
-=======
 import Jobform from './components/hr/Jobform'
 import Rank from './components/hr/Rank'
->>>>>>> 257ce5a (Updated HR)
+import Quiz from './components/QuizWindow/Quiz'
+import ScheduleTest from './components/hr/ScheduleTest'
+import Shortlisted from './components/hr/Shortlisted'
+
 
 function App() {
   return (
@@ -35,12 +35,13 @@ function App() {
         <Route path="/hr/profile" element={<HrProfile />} />
         <Route path="/hr/postjd" element={<PostJD />} />
         <Route path="/hr/rank" element={<Rank/>} />
+        <Route path="/hr/shortlist" element={<Shortlisted/>} />
+        <Route path="/hr/schedule" element={<ScheduleTest/>} />
         <Route path="/hr/editjd" element={<Jobform />} />
         <Route path="/admin/home" element={<AdminDashboard />} />
         <Route path="/admin/home/hr" element={<AdminHr />} />
         <Route path="/admin/home/user" element={<AdminUser />} />
-        <Route path="/interview-question" element={<QuestionandAnswer />} />
-
+        <Route path="/interview-question" element={<Quiz/>} />
 
       </Routes>
     </BrowserRouter>

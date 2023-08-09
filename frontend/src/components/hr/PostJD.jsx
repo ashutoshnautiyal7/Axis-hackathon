@@ -117,7 +117,7 @@ function PostJD() {
                                         Date
                                     </label>
                                     <div className="mt-1">
-                                        <input type="date" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 w-1/2" placeholder="Job Description" value={endDate} onChange={(e) => setEndDate(e.target.value)}
+                                        <input type="date" name="description" id="description" className="rounded-md p-2 border-2 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 w-1/2" placeholder="Job Description" value={endDate} required onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>
                                 </div>

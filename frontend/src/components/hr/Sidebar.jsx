@@ -12,9 +12,9 @@ const Sidebar = () => {
     { name: "Dashboard", link: "/hr/home", icon: MdOutlineDashboard },
     { name: "Profile", link: "/hr/profile", icon: AiOutlineUser },
     { name: "Post JD", link: "/hr/postjd", icon: FiMessageSquare },
-    { name: "Candidates", link: "/", icon: TbReportAnalytics, margin: true },
     { name: "Rank Resume", link: "/hr/rank", icon: FiFolder },
-    { name: "Cart", link: "/", icon: FiShoppingCart },
+    { name: "Performance", link: "/hr/shortlist", icon: TbReportAnalytics},
+    { name: "Schedule Test", link: "/hr/schedule", icon: FiShoppingCart },
     { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
     { name: "Setting", link: "/", icon: RiSettings4Line },
   ];
